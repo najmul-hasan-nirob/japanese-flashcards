@@ -57,7 +57,7 @@ background:#0d82df;
 .grid{
 
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+grid-template-columns:repeat(10, 1fr);
 gap:15px;
 
 }
@@ -117,6 +117,73 @@ font-size:22px;
 transform:rotateY(180deg);
 
 }
+  /* ---------- DARK MODE ---------- */
+
+body{
+    transition:.3s;
+}
+
+button,
+select{
+    transition:.3s;
+}
+
+.card .front,
+.card .back{
+    transition:.3s;
+}
+
+body.dark{
+
+    background:#111827;
+    color:#fff;
+
+}
+
+body.dark .front{
+
+    background:#1f2937;
+    color:#fff;
+
+}
+
+body.dark .back{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+body.dark button{
+
+    background:#2563eb;
+
+}
+
+body.dark button:hover{
+
+    background:#1d4ed8;
+
+}
+
+body.dark select{
+
+    background:#1f2937;
+    color:white;
+    border:1px solid #555;
+
+}
+  select{
+
+padding:12px 18px;
+font-size:18px;
+border:none;
+border-radius:8px;
+margin:0 10px;
+cursor:pointer;
+background:white;
+
+}
 
 </style>
 </head>
@@ -125,133 +192,267 @@ transform:rotateY(180deg);
 <h1>Hiragana Flash Cards</h1>
 
 <div class="controls">
-<button id="shuffle">🔀 Shuffle</button>
+
+   <select id="mode">
+    <option value="normal">📖 Normal</option>
+    <option value="shuffle">🔀 Shuffle</option>
+</select>
+
+    <select id="filter">
+        <option value="all">All</option>
+        <option value="basic">Basic</option>
+        <option value="dakuten">Dakuten</option>
+        <option value="handakuten">Handakuten</option>
+        <option value="yoon">Yōon</option>
+    </select>
+
+    <button id="theme">🌙 Dark</button>
+
 </div>
 
 <div class="grid" id="grid"></div>
 
 <script>
 
-const chars=[
-
-// Basic
-
-["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],
-
-["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],
-
-["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],
-
-["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"],
-
-["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"],
-
-["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"],
-
-["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"],
-
-["や","ya"],["ゆ","yu"],["よ","yo"],
-
-["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],
-
-["わ","wa"],["を","wo"],["ん","n"],
 
 
-// Dakuten
+const chars = [
 
-["が","ga"],["ぎ","gi"],["ぐ","gu"],["げ","ge"],["ご","go"],
+    // =========================
+    // Basic
+    // =========================
 
-["ざ","za"],["じ","ji"],["ず","zu"],["ぜ","ze"],["ぞ","zo"],
+    {jp:"あ",en:"a",type:"basic"},
+    {jp:"い",en:"i",type:"basic"},
+    {jp:"う",en:"u",type:"basic"},
+    {jp:"え",en:"e",type:"basic"},
+    {jp:"お",en:"o",type:"basic"},
 
-["だ","da"],["ぢ","ji"],["づ","zu"],["で","de"],["ど","do"],
+    {jp:"か",en:"ka",type:"basic"},
+    {jp:"き",en:"ki",type:"basic"},
+    {jp:"く",en:"ku",type:"basic"},
+    {jp:"け",en:"ke",type:"basic"},
+    {jp:"こ",en:"ko",type:"basic"},
 
-["ば","ba"],["び","bi"],["ぶ","bu"],["べ","be"],["ぼ","bo"],
+    {jp:"さ",en:"sa",type:"basic"},
+    {jp:"し",en:"shi",type:"basic"},
+    {jp:"す",en:"su",type:"basic"},
+    {jp:"せ",en:"se",type:"basic"},
+    {jp:"そ",en:"so",type:"basic"},
 
+    {jp:"た",en:"ta",type:"basic"},
+    {jp:"ち",en:"chi",type:"basic"},
+    {jp:"つ",en:"tsu",type:"basic"},
+    {jp:"て",en:"te",type:"basic"},
+    {jp:"と",en:"to",type:"basic"},
 
-// Handakuten
+    {jp:"な",en:"na",type:"basic"},
+    {jp:"に",en:"ni",type:"basic"},
+    {jp:"ぬ",en:"nu",type:"basic"},
+    {jp:"ね",en:"ne",type:"basic"},
+    {jp:"の",en:"no",type:"basic"},
 
-["ぱ","pa"],["ぴ","pi"],["ぷ","pu"],["ぺ","pe"],["ぽ","po"],
+    {jp:"は",en:"ha",type:"basic"},
+    {jp:"ひ",en:"hi",type:"basic"},
+    {jp:"ふ",en:"fu",type:"basic"},
+    {jp:"へ",en:"he",type:"basic"},
+    {jp:"ほ",en:"ho",type:"basic"},
 
+    {jp:"ま",en:"ma",type:"basic"},
+    {jp:"み",en:"mi",type:"basic"},
+    {jp:"む",en:"mu",type:"basic"},
+    {jp:"め",en:"me",type:"basic"},
+    {jp:"も",en:"mo",type:"basic"},
 
-// Yoon
+    {jp:"や",en:"ya",type:"basic"},
+    {jp:"ゆ",en:"yu",type:"basic"},
+    {jp:"よ",en:"yo",type:"basic"},
 
-["きゃ","kya"],["きゅ","kyu"],["きょ","kyo"],
+    {jp:"ら",en:"ra",type:"basic"},
+    {jp:"り",en:"ri",type:"basic"},
+    {jp:"る",en:"ru",type:"basic"},
+    {jp:"れ",en:"re",type:"basic"},
+    {jp:"ろ",en:"ro",type:"basic"},
 
-["ぎゃ","gya"],["ぎゅ","gyu"],["ぎょ","gyo"],
+    {jp:"わ",en:"wa",type:"basic"},
+    {jp:"を",en:"wo",type:"basic"},
+    {jp:"ん",en:"n",type:"basic"},
 
-["しゃ","sha"],["しゅ","shu"],["しょ","sho"],
+    // =========================
+    // Dakuten
+    // =========================
 
-["じゃ","ja"],["じゅ","ju"],["じょ","jo"],
+    {jp:"が",en:"ga",type:"dakuten"},
+    {jp:"ぎ",en:"gi",type:"dakuten"},
+    {jp:"ぐ",en:"gu",type:"dakuten"},
+    {jp:"げ",en:"ge",type:"dakuten"},
+    {jp:"ご",en:"go",type:"dakuten"},
 
-["ちゃ","cha"],["ちゅ","chu"],["ちょ","cho"],
+    {jp:"ざ",en:"za",type:"dakuten"},
+    {jp:"じ",en:"ji",type:"dakuten"},
+    {jp:"ず",en:"zu",type:"dakuten"},
+    {jp:"ぜ",en:"ze",type:"dakuten"},
+    {jp:"ぞ",en:"zo",type:"dakuten"},
 
-["にゃ","nya"],["にゅ","nyu"],["にょ","nyo"],
+    {jp:"だ",en:"da",type:"dakuten"},
+    {jp:"ぢ",en:"ji",type:"dakuten"},
+    {jp:"づ",en:"zu",type:"dakuten"},
+    {jp:"で",en:"de",type:"dakuten"},
+    {jp:"ど",en:"do",type:"dakuten"},
 
-["ひゃ","hya"],["ひゅ","hyu"],["ひょ","hyo"],
+    {jp:"ば",en:"ba",type:"dakuten"},
+    {jp:"び",en:"bi",type:"dakuten"},
+    {jp:"ぶ",en:"bu",type:"dakuten"},
+    {jp:"べ",en:"be",type:"dakuten"},
+    {jp:"ぼ",en:"bo",type:"dakuten"},
 
-["びゃ","bya"],["びゅ","byu"],["びょ","byo"],
+    // =========================
+    // Handakuten
+    // =========================
 
-["ぴゃ","pya"],["ぴゅ","pyu"],["ぴょ","pyo"],
+    {jp:"ぱ",en:"pa",type:"handakuten"},
+    {jp:"ぴ",en:"pi",type:"handakuten"},
+    {jp:"ぷ",en:"pu",type:"handakuten"},
+    {jp:"ぺ",en:"pe",type:"handakuten"},
+    {jp:"ぽ",en:"po",type:"handakuten"},
 
-["みゃ","mya"],["みゅ","myu"],["みょ","myo"],
+    // =========================
+    // Yoon
+    // =========================
 
-["りゃ","rya"],["りゅ","ryu"],["りょ","ryo"]
+    {jp:"きゃ",en:"kya",type:"yoon"},
+    {jp:"きゅ",en:"kyu",type:"yoon"},
+    {jp:"きょ",en:"kyo",type:"yoon"},
+
+    {jp:"ぎゃ",en:"gya",type:"yoon"},
+    {jp:"ぎゅ",en:"gyu",type:"yoon"},
+    {jp:"ぎょ",en:"gyo",type:"yoon"},
+
+    {jp:"しゃ",en:"sha",type:"yoon"},
+    {jp:"しゅ",en:"shu",type:"yoon"},
+    {jp:"しょ",en:"sho",type:"yoon"},
+
+    {jp:"じゃ",en:"ja",type:"yoon"},
+    {jp:"じゅ",en:"ju",type:"yoon"},
+    {jp:"じょ",en:"jo",type:"yoon"},
+
+    {jp:"ちゃ",en:"cha",type:"yoon"},
+    {jp:"ちゅ",en:"chu",type:"yoon"},
+    {jp:"ちょ",en:"cho",type:"yoon"},
+
+    {jp:"にゃ",en:"nya",type:"yoon"},
+    {jp:"にゅ",en:"nyu",type:"yoon"},
+    {jp:"にょ",en:"nyo",type:"yoon"},
+
+    {jp:"ひゃ",en:"hya",type:"yoon"},
+    {jp:"ひゅ",en:"hyu",type:"yoon"},
+    {jp:"ひょ",en:"hyo",type:"yoon"},
+
+    {jp:"びゃ",en:"bya",type:"yoon"},
+    {jp:"びゅ",en:"byu",type:"yoon"},
+    {jp:"びょ",en:"byo",type:"yoon"},
+
+    {jp:"ぴゃ",en:"pya",type:"yoon"},
+    {jp:"ぴゅ",en:"pyu",type:"yoon"},
+    {jp:"ぴょ",en:"pyo",type:"yoon"},
+
+    {jp:"みゃ",en:"mya",type:"yoon"},
+    {jp:"みゅ",en:"myu",type:"yoon"},
+    {jp:"みょ",en:"myo",type:"yoon"},
+
+    {jp:"りゃ",en:"rya",type:"yoon"},
+    {jp:"りゅ",en:"ryu",type:"yoon"},
+    {jp:"りょ",en:"ryo",type:"yoon"}
 
 ];
 
-function shuffle(arr){
-
-for(let i=arr.length-1;i>0;i--){
-
-const j=Math.floor(Math.random()*(i+1));
-
-[arr[i],arr[j]]=[arr[j],arr[i]];
-
-}
-
+function shuffle(array){
+    for(let i=array.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
+    }
 }
 
 const grid=document.getElementById("grid");
+const filter=document.getElementById("filter");
+  const mode = document.getElementById("mode");
 
 function render(){
 
-grid.innerHTML="";
+    grid.innerHTML="";
 
-shuffle(chars);
+    let cards;
 
-chars.forEach(item=>{
+    if(filter.value==="all"){
+        cards=[...chars];
+    }else{
+        cards=chars.filter(card=>card.type===filter.value);
+    }
 
-const card=document.createElement("div");
+    // Shuffle only when Shuffle mode is selected
+    if(mode.value==="shuffle"){
+        shuffle(cards);
+    }
 
-card.className="card";
+    cards.forEach(item=>{
 
-card.innerHTML=`
+        const card=document.createElement("div");
 
-<div class="inner">
+        card.className="card";
 
-<div class="front">${item[0]}</div>
+        card.innerHTML=`
+            <div class="inner">
+                <div class="front">${item.jp}</div>
+                <div class="back">${item.en}</div>
+            </div>
+        `;
 
-<div class="back">${item[1]}</div>
+        card.addEventListener("click",()=>{
+            card.classList.toggle("flipped");
+        });
 
-</div>
+        grid.appendChild(card);
 
-`;
+    });
 
-card.onclick=()=>{
-
-card.classList.toggle("flipped");
-
-};
-
-grid.appendChild(card);
-
-});
 
 }
 
 render();
 
-document.getElementById("shuffle").onclick=render;
+// =====================
+// Buttons
+// =====================
+
+mode.addEventListener("change",render);
+filter.addEventListener("change",render);
+
+filter.addEventListener("change",render);
+
+// =====================
+// Dark Mode
+// =====================
+
+const themeBtn=document.getElementById("theme");
+
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark");
+    themeBtn.textContent="☀️ Light";
+}
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme","dark");
+        themeBtn.textContent="☀️ Light";
+    }else{
+        localStorage.setItem("theme","light");
+        themeBtn.textContent="🌙 Dark";
+    }
+
+});
 
 </script>
 
