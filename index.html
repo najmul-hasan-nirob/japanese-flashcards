@@ -129,6 +129,13 @@ font-size:38px;
 
 }
 
+.grid.numbers-mode .front{
+
+font-size:18px;
+    padding: 10px;
+
+}
+
 .back{
 
 background:#4caf50;
@@ -216,6 +223,7 @@ background:white;
    <select id="script">
     <option value="hiragana">あ Hiragana</option>
     <option value="katakana">ア Katakana</option>
+    <option value="numbers">数 Numbers</option>
 </select>
 
    <select id="mode">
@@ -541,6 +549,42 @@ const katakanaChars = [
 
 ];
 
+const numbersChars = [
+
+    {jp:"rei / zero",en:"0",type:"basic"},
+    {jp:"ichi",en:"1",type:"basic"},
+    {jp:"ni",en:"2",type:"basic"},
+    {jp:"san",en:"3",type:"basic"},
+    {jp:"yon / shi",en:"4",type:"basic"},
+    {jp:"go",en:"5",type:"basic"},
+    {jp:"roku",en:"6",type:"basic"},
+    {jp:"nana / shichi",en:"7",type:"basic"},
+    {jp:"hachi",en:"8",type:"basic"},
+    {jp:"kyuu",en:"9",type:"basic"},
+    {jp:"juu",en:"10",type:"basic"},
+    {jp:"juuichi",en:"11",type:"basic"},
+    {jp:"juuni",en:"12",type:"basic"},
+    {jp:"juusan",en:"13",type:"basic"},
+    {jp:"juuyon",en:"14",type:"basic"},
+    {jp:"juugo",en:"15",type:"basic"},
+    {jp:"juuroku",en:"16",type:"basic"},
+    {jp:"juunana",en:"17",type:"basic"},
+    {jp:"juuhachi",en:"18",type:"basic"},
+    {jp:"juukyuu",en:"19",type:"basic"},
+    {jp:"nijuu",en:"20",type:"basic"},
+    {jp:"sanjuu",en:"30",type:"basic"},
+    {jp:"yonjuu",en:"40",type:"basic"},
+    {jp:"gojuu",en:"50",type:"basic"},
+    {jp:"rokujuu",en:"60",type:"basic"},
+    {jp:"nanajuu",en:"70",type:"basic"},
+    {jp:"hachijuu",en:"80",type:"basic"},
+    {jp:"kyuujuu",en:"90",type:"basic"},
+    {jp:"hyaku",en:"100",type:"basic"},
+    {jp:"sen",en:"1000",type:"basic"},
+    {jp:"man",en:"10000",type:"basic"}
+
+];
+
 function shuffle(array){
     for(let i=array.length-1;i>0;i--){
         const j=Math.floor(Math.random()*(i+1));
@@ -557,7 +601,17 @@ function render(){
 
     grid.innerHTML="";
 
-    const source = scriptSel.value === "katakana" ? katakanaChars : hiraganaChars;
+    let source;
+    if(scriptSel.value === "katakana"){
+        source = katakanaChars;
+    }else if(scriptSel.value === "numbers"){
+        source = numbersChars;
+    }else{
+        source = hiraganaChars;
+    }
+
+    filter.style.display = scriptSel.value === "numbers" ? "none" : "inline-block";
+    grid.classList.toggle("numbers-mode", scriptSel.value === "numbers");
 
     let cards;
 
