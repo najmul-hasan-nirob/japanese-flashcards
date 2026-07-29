@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hiragana Flash Cards</title>
+<title>Japanese Flash Cards</title>
 
 <style>
 
@@ -32,6 +32,8 @@ margin-bottom:20px;
 
 display:flex;
 justify-content:center;
+flex-wrap:wrap;
+gap:10px;
 margin-bottom:25px;
 
 }
@@ -207,9 +209,14 @@ background:white;
 </head>
 <body>
 
-<h1>Hiragana Flash Cards</h1>
+<h1>Japanese Flash Cards</h1>
 
 <div class="controls">
+
+   <select id="script">
+    <option value="hiragana">あ Hiragana</option>
+    <option value="katakana">ア Katakana</option>
+</select>
 
    <select id="mode">
     <option value="normal">📖 Normal</option>
@@ -219,9 +226,9 @@ background:white;
     <select id="filter">
         <option value="all">All</option>
         <option value="basic">Basic</option>
-        <option value="dakuten">Dakuten</option>
-        <option value="handakuten">Handakuten</option>
-        <option value="yoon">Yōon</option>
+        <option value="dakuten">Dakuten (Porobortito)</option>
+        <option value="handakuten">Handakuten (Porobortito)</option>
+        <option value="yoon">Yōon (Songjukto)</option>
     </select>
 
     <button id="theme">🌙 Dark</button>
@@ -234,7 +241,7 @@ background:white;
 
 
 
-const chars = [
+const hiraganaChars = [
 
     // =========================
     // Basic
@@ -384,6 +391,156 @@ const chars = [
 
 ];
 
+const katakanaChars = [
+
+    // =========================
+    // Basic
+    // =========================
+
+    {jp:"ア",en:"a",type:"basic"},
+    {jp:"イ",en:"i",type:"basic"},
+    {jp:"ウ",en:"u",type:"basic"},
+    {jp:"エ",en:"e",type:"basic"},
+    {jp:"オ",en:"o",type:"basic"},
+
+    {jp:"カ",en:"ka",type:"basic"},
+    {jp:"キ",en:"ki",type:"basic"},
+    {jp:"ク",en:"ku",type:"basic"},
+    {jp:"ケ",en:"ke",type:"basic"},
+    {jp:"コ",en:"ko",type:"basic"},
+
+    {jp:"サ",en:"sa",type:"basic"},
+    {jp:"シ",en:"shi",type:"basic"},
+    {jp:"ス",en:"su",type:"basic"},
+    {jp:"セ",en:"se",type:"basic"},
+    {jp:"ソ",en:"so",type:"basic"},
+
+    {jp:"タ",en:"ta",type:"basic"},
+    {jp:"チ",en:"chi",type:"basic"},
+    {jp:"ツ",en:"tsu",type:"basic"},
+    {jp:"テ",en:"te",type:"basic"},
+    {jp:"ト",en:"to",type:"basic"},
+
+    {jp:"ナ",en:"na",type:"basic"},
+    {jp:"ニ",en:"ni",type:"basic"},
+    {jp:"ヌ",en:"nu",type:"basic"},
+    {jp:"ネ",en:"ne",type:"basic"},
+    {jp:"ノ",en:"no",type:"basic"},
+
+    {jp:"ハ",en:"ha",type:"basic"},
+    {jp:"ヒ",en:"hi",type:"basic"},
+    {jp:"フ",en:"fu",type:"basic"},
+    {jp:"ヘ",en:"he",type:"basic"},
+    {jp:"ホ",en:"ho",type:"basic"},
+
+    {jp:"マ",en:"ma",type:"basic"},
+    {jp:"ミ",en:"mi",type:"basic"},
+    {jp:"ム",en:"mu",type:"basic"},
+    {jp:"メ",en:"me",type:"basic"},
+    {jp:"モ",en:"mo",type:"basic"},
+
+    {jp:"ヤ",en:"ya",type:"basic"},
+    {jp:"ユ",en:"yu",type:"basic"},
+    {jp:"ヨ",en:"yo",type:"basic"},
+
+    {jp:"ラ",en:"ra",type:"basic"},
+    {jp:"リ",en:"ri",type:"basic"},
+    {jp:"ル",en:"ru",type:"basic"},
+    {jp:"レ",en:"re",type:"basic"},
+    {jp:"ロ",en:"ro",type:"basic"},
+
+    {jp:"ワ",en:"wa",type:"basic"},
+    {jp:"ヲ",en:"wo",type:"basic"},
+    {jp:"ン",en:"n",type:"basic"},
+
+    // =========================
+    // Dakuten
+    // =========================
+
+    {jp:"ガ",en:"ga",type:"dakuten"},
+    {jp:"ギ",en:"gi",type:"dakuten"},
+    {jp:"グ",en:"gu",type:"dakuten"},
+    {jp:"ゲ",en:"ge",type:"dakuten"},
+    {jp:"ゴ",en:"go",type:"dakuten"},
+
+    {jp:"ザ",en:"za",type:"dakuten"},
+    {jp:"ジ",en:"ji",type:"dakuten"},
+    {jp:"ズ",en:"zu",type:"dakuten"},
+    {jp:"ゼ",en:"ze",type:"dakuten"},
+    {jp:"ゾ",en:"zo",type:"dakuten"},
+
+    {jp:"ダ",en:"da",type:"dakuten"},
+    {jp:"ヂ",en:"ji",type:"dakuten"},
+    {jp:"ヅ",en:"zu",type:"dakuten"},
+    {jp:"デ",en:"de",type:"dakuten"},
+    {jp:"ド",en:"do",type:"dakuten"},
+
+    {jp:"バ",en:"ba",type:"dakuten"},
+    {jp:"ビ",en:"bi",type:"dakuten"},
+    {jp:"ブ",en:"bu",type:"dakuten"},
+    {jp:"ベ",en:"be",type:"dakuten"},
+    {jp:"ボ",en:"bo",type:"dakuten"},
+
+    // =========================
+    // Handakuten
+    // =========================
+
+    {jp:"パ",en:"pa",type:"handakuten"},
+    {jp:"ピ",en:"pi",type:"handakuten"},
+    {jp:"プ",en:"pu",type:"handakuten"},
+    {jp:"ペ",en:"pe",type:"handakuten"},
+    {jp:"ポ",en:"po",type:"handakuten"},
+
+    // =========================
+    // Yoon
+    // =========================
+
+    {jp:"キャ",en:"kya",type:"yoon"},
+    {jp:"キュ",en:"kyu",type:"yoon"},
+    {jp:"キョ",en:"kyo",type:"yoon"},
+
+    {jp:"ギャ",en:"gya",type:"yoon"},
+    {jp:"ギュ",en:"gyu",type:"yoon"},
+    {jp:"ギョ",en:"gyo",type:"yoon"},
+
+    {jp:"シャ",en:"sha",type:"yoon"},
+    {jp:"シュ",en:"shu",type:"yoon"},
+    {jp:"ショ",en:"sho",type:"yoon"},
+
+    {jp:"ジャ",en:"ja",type:"yoon"},
+    {jp:"ジュ",en:"ju",type:"yoon"},
+    {jp:"ジョ",en:"jo",type:"yoon"},
+
+    {jp:"チャ",en:"cha",type:"yoon"},
+    {jp:"チュ",en:"chu",type:"yoon"},
+    {jp:"チョ",en:"cho",type:"yoon"},
+
+    {jp:"ニャ",en:"nya",type:"yoon"},
+    {jp:"ニュ",en:"nyu",type:"yoon"},
+    {jp:"ニョ",en:"nyo",type:"yoon"},
+
+    {jp:"ヒャ",en:"hya",type:"yoon"},
+    {jp:"ヒュ",en:"hyu",type:"yoon"},
+    {jp:"ヒョ",en:"hyo",type:"yoon"},
+
+    {jp:"ビャ",en:"bya",type:"yoon"},
+    {jp:"ビュ",en:"byu",type:"yoon"},
+    {jp:"ビョ",en:"byo",type:"yoon"},
+
+    {jp:"ピャ",en:"pya",type:"yoon"},
+    {jp:"ピュ",en:"pyu",type:"yoon"},
+    {jp:"ピョ",en:"pyo",type:"yoon"},
+
+    {jp:"ミャ",en:"mya",type:"yoon"},
+    {jp:"ミュ",en:"myu",type:"yoon"},
+    {jp:"ミョ",en:"myo",type:"yoon"},
+
+    {jp:"リャ",en:"rya",type:"yoon"},
+    {jp:"リュ",en:"ryu",type:"yoon"},
+    {jp:"リョ",en:"ryo",type:"yoon"}
+
+];
+
 function shuffle(array){
     for(let i=array.length-1;i>0;i--){
         const j=Math.floor(Math.random()*(i+1));
@@ -393,18 +550,21 @@ function shuffle(array){
 
 const grid=document.getElementById("grid");
 const filter=document.getElementById("filter");
-  const mode = document.getElementById("mode");
+const mode = document.getElementById("mode");
+const scriptSel = document.getElementById("script");
 
 function render(){
 
     grid.innerHTML="";
 
+    const source = scriptSel.value === "katakana" ? katakanaChars : hiraganaChars;
+
     let cards;
 
     if(filter.value==="all"){
-        cards=[...chars];
+        cards=[...source];
     }else{
-        cards=chars.filter(card=>card.type===filter.value);
+        cards=source.filter(card=>card.type===filter.value);
     }
 
     // Shuffle only when Shuffle mode is selected
@@ -439,12 +599,11 @@ function render(){
 render();
 
 // =====================
-// Buttons
+// Controls
 // =====================
 
+scriptSel.addEventListener("change",render);
 mode.addEventListener("change",render);
-filter.addEventListener("change",render);
-
 filter.addEventListener("change",render);
 
 // =====================
