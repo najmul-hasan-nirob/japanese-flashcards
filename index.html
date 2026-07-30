@@ -64,7 +64,18 @@ background:#0d82df;
     margin:auto;
 }
 
-@media (max-width:1000px){
+.grid.table-mode{
+
+    grid-template-columns:repeat(5,1fr) !important;
+
+}
+
+.card.blank{
+
+    visibility:hidden;
+    pointer-events:none;
+
+}
     .grid{
         grid-template-columns:repeat(5,1fr);
     }
@@ -131,8 +142,7 @@ font-size:38px;
 
 .grid.numbers-mode .front{
 
-font-size:22px;
-    padding: 10px;
+font-size:18px;
 
 }
 
@@ -597,6 +607,20 @@ const filter=document.getElementById("filter");
 const mode = document.getElementById("mode");
 const scriptSel = document.getElementById("script");
 
+const gojuonRows = [
+    ["a","i","u","e","o"],
+    ["ka","ki","ku","ke","ko"],
+    ["sa","shi","su","se","so"],
+    ["ta","chi","tsu","te","to"],
+    ["na","ni","nu","ne","no"],
+    ["ha","hi","fu","he","ho"],
+    ["ma","mi","mu","me","mo"],
+    ["ya",null,"yu",null,"yo"],
+    ["ra","ri","ru","re","ro"],
+    ["wa",null,null,null,"wo"],
+    ["n",null,null,null,null]
+];
+
 function render(){
 
     grid.innerHTML="";
@@ -612,6 +636,52 @@ function render(){
 
     filter.style.display = scriptSel.value === "numbers" ? "none" : "inline-block";
     grid.classList.toggle("numbers-mode", scriptSel.value === "numbers");
+
+    const useTableLayout =
+        (scriptSel.value === "hiragana" || scriptSel.value === "katakana") &&
+        filter.value === "basic" &&
+        mode.value === "normal";
+
+    grid.classList.toggle("table-mode", useTableLayout);
+
+    if(useTableLayout){
+
+        const lookup = {};
+        source.filter(c=>c.type==="basic").forEach(c=>{ lookup[c.en]=c; });
+
+        gojuonRows.forEach(row=>{
+            row.forEach(code=>{
+
+                const card=document.createElement("div");
+
+                if(code===null || !lookup[code]){
+                    card.className="card blank";
+                    grid.appendChild(card);
+                    return;
+                }
+
+                const item=lookup[code];
+
+                card.className="card";
+
+                card.innerHTML=`
+                    <div class="inner">
+                        <div class="front">${item.jp}</div>
+                        <div class="back">${item.en}</div>
+                    </div>
+                `;
+
+                card.addEventListener("click",()=>{
+                    card.classList.toggle("flipped");
+                });
+
+                grid.appendChild(card);
+
+            });
+        });
+
+        return;
+    }
 
     let cards;
 
