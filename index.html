@@ -70,6 +70,12 @@ background:#0d82df;
 
 }
 
+.grid.yoon-mode{
+
+    grid-template-columns:repeat(3,1fr) !important;
+
+}
+
 .card.blank{
 
     visibility:hidden;
@@ -627,6 +633,20 @@ const gojuonRows = [
     ["n",null,null,null,null]
 ];
 
+const yoonRows = [
+    ["kya","kyu","kyo"],
+    ["gya","gyu","gyo"],
+    ["sha","shu","sho"],
+    ["ja","ju","jo"],
+    ["cha","chu","cho"],
+    ["nya","nyu","nyo"],
+    ["hya","hyu","hyo"],
+    ["bya","byu","byo"],
+    ["pya","pyu","pyo"],
+    ["mya","myu","myo"],
+    ["rya","ryu","ryo"]
+];
+
 function render(){
 
     grid.innerHTML="";
@@ -643,12 +663,20 @@ function render(){
     filter.style.display = scriptSel.value === "numbers" ? "none" : "inline-block";
     grid.classList.toggle("numbers-mode", scriptSel.value === "numbers");
 
+    const isJpScript = (scriptSel.value === "hiragana" || scriptSel.value === "katakana");
+
     const useTableLayout =
-        (scriptSel.value === "hiragana" || scriptSel.value === "katakana") &&
+        isJpScript &&
         filter.value === "basic" &&
         mode.value === "normal";
 
+    const useYoonLayout =
+        isJpScript &&
+        filter.value === "yoon" &&
+        mode.value === "normal";
+
     grid.classList.toggle("table-mode", useTableLayout);
+    grid.classList.toggle("yoon-mode", useYoonLayout);
 
     if(useTableLayout){
 
@@ -661,6 +689,45 @@ function render(){
                 const card=document.createElement("div");
 
                 if(code===null || !lookup[code]){
+                    card.className="card blank";
+                    grid.appendChild(card);
+                    return;
+                }
+
+                const item=lookup[code];
+
+                card.className="card";
+
+                card.innerHTML=`
+                    <div class="inner">
+                        <div class="front">${item.jp}</div>
+                        <div class="back">${item.en}</div>
+                    </div>
+                `;
+
+                card.addEventListener("click",()=>{
+                    card.classList.toggle("flipped");
+                });
+
+                grid.appendChild(card);
+
+            });
+        });
+
+        return;
+    }
+
+    if(useYoonLayout){
+
+        const lookup = {};
+        source.filter(c=>c.type==="yoon").forEach(c=>{ lookup[c.en]=c; });
+
+        yoonRows.forEach(row=>{
+            row.forEach(code=>{
+
+                const card=document.createElement("div");
+
+                if(!lookup[code]){
                     card.className="card blank";
                     grid.appendChild(card);
                     return;
