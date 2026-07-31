@@ -3,76 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Japanese Flash Cards</title>
+<title>Japanese Kana · Hiragana &amp; Katakana</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
+:root{
+
+    --paper:#F7F2E7;
+    --paper-cell:#FFFDF8;
+    --paper-line:#DED4BC;
+    --ink:#241F18;
+    --ink-soft:#7A705E;
+    --indigo:#2B3A67;
+    --indigo-deep:#1C2747;
+    --vermilion:#BD4327;
+    --vermilion-soft:rgba(189,67,39,.10);
+    --shadow:0 2px 10px rgba(36,31,24,.06);
+    --radius:6px;
+
+}
+
+body.dark{
+
+    --paper:#15141A;
+    --paper-cell:#1E1C24;
+    --paper-line:#33303C;
+    --ink:#EDE7DA;
+    --ink-soft:#948C7C;
+    --indigo:#7C93D6;
+    --indigo-deep:#AFC0F0;
+    --vermilion:#E37A52;
+    --vermilion-soft:rgba(227,122,82,.14);
+    --shadow:0 2px 14px rgba(0,0,0,.35);
+
+}
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
 
-background:#f4f6f8;
-padding:30px;
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    background-color:var(--paper);
+    color:var(--ink);
+    padding:36px 20px 60px;
+    transition:background-color .35s ease, color .35s ease;
+
+    background-image:
+        linear-gradient(var(--paper-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:34px 34px;
+    background-position:center top;
+
+}
+
+body::before{
+
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-color:var(--paper);
+    opacity:.55;
+    z-index:-1;
+    transition:background-color .35s ease;
+
+}
+
+/* ---------- HEADER ---------- */
+
+.page-head{
+
+    max-width:980px;
+    margin:0 auto 30px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+}
+
+.kanji-mark{
+
+    font-family:'Shippori Mincho', serif;
+    font-size:56px;
+    font-weight:800;
+    color:var(--vermilion);
+    line-height:1;
+    flex-shrink:0;
 
 }
 
 h1{
 
-text-align:center;
-margin-bottom:20px;
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:28px;
+    letter-spacing:.02em;
+    margin-bottom:4px;
 
 }
 
-.controls{
+.subtitle{
 
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:25px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    letter-spacing:.03em;
 
 }
 
+/* ---------- TOOLBAR ---------- */
+
+.toolbar{
+
+    max-width:980px;
+    margin:0 auto 34px;
+    background:var(--paper-cell);
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:14px 18px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:14px;
+    transition:background-color .35s ease, border-color .35s ease;
+
+}
+
+.field{
+
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+
+}
+
+.field label{
+
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--ink-soft);
+
+}
+
+select{
+
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:14px;
+    padding:9px 34px 9px 12px;
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    background:var(--paper-cell);
+    color:var(--ink);
+    cursor:pointer;
+    appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%237A705E'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    transition:border-color .2s ease;
+
+}
+
+select:hover{ border-color:var(--vermilion); }
+select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
+
+/* ---------- NAV / DARK TOGGLE ---------- */
+
+.nav-btn,
 button{
-margin-right: 15px;
-padding:12px 25px;
-font-size:18px;
-border:none;
-background:#2196f3;
-color:white;
-border-radius:8px;
-cursor:pointer;
+
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:9px 16px;
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    background:var(--paper-cell);
+    color:var(--ink);
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:border-color .2s ease, color .2s ease;
 
 }
 
-button:hover{
+.nav-button{
 
-background:#0d82df;
+    margin-left:auto;
 
 }
+
+.nav-btn:hover,
+button:hover{ border-color:var(--vermilion); color:var(--vermilion); background:var(--paper-cell); }
+
+.nav-btn:focus-visible,
+button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
+
+/* ---------- GRID ---------- */
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:8px;
-    max-width:740px;
-    margin:auto;
+    grid-template-columns:repeat(auto-fill,minmax(84px,1fr));
+    gap:10px;
+    max-width:980px;
+    margin:0 auto;
 }
 
 .grid.table-mode{
 
     grid-template-columns:repeat(5,1fr) !important;
+    max-width:640px;
 
 }
 
 .grid.yoon-mode{
 
     grid-template-columns:repeat(3,1fr) !important;
+    max-width:520px;
+
+}
+
+.grid.numbers-mode{
+
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
 
 }
 
@@ -82,155 +246,129 @@ background:#0d82df;
     pointer-events:none;
 
 }
-    .grid{
-        grid-template-columns:repeat(5,1fr);
-    }
-}
-
-@media (max-width:800px){
-    .grid{
-        grid-template-columns:repeat(5,1fr);
-    }
-}
-
-@media (max-width:600px){
-    .grid{
-        grid-template-columns:repeat(5,1fr);
-    }
-}
 
 .card{
 
-height:60px;
-perspective:1000px;
-cursor:pointer;
+    position:relative;
+    height:64px;
+    perspective:1000px;
+    cursor:pointer;
 
 }
 
 .inner{
 
-width: 95%;
-height: 80%;
-position:relative;
-transition:.6s;
-transform-style:preserve-3d;
+    width:100%;
+    height:100%;
+    position:relative;
+    transition:transform .5s cubic-bezier(.4,.1,.2,1);
+    transform-style:preserve-3d;
 
 }
 
 .card.flipped .inner{
 
-transform:rotateY(180deg);
+    transform:rotateY(180deg);
 
+}
+
+@media (prefers-reduced-motion:reduce){
+    .inner{ transition:none; }
 }
 
 .front,
 .back{
 
-position:absolute;
-width:100%;
-height:100%;
-border-radius:10px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
-backface-visibility:hidden;
-box-shadow:0 3px 8px rgba(0,0,0,.15);
+    position:absolute;
+    inset:0;
+    border-radius:var(--radius);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:4px;
+    line-height:1.2;
+    word-break:break-word;
+    backface-visibility:hidden;
+    border:1px solid var(--paper-line);
+    box-shadow:var(--shadow);
 
 }
+  .nav-btn {
+    margin-left: auto;
+} 
 
 .front{
 
-background:white;
-font-size:30px;
+    background:var(--paper-cell);
+    color:var(--ink);
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:26px;
 
 }
 
-    @media only screen and (max-width: 500px) {
-        .front{font-size:25px;
-
-}    
-    }
+@media only screen and (max-width: 500px) {
+    .front{ font-size:21px; }
+}
 
 .grid.numbers-mode .front{
 
-font-size:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    font-size:13.5px;
 
 }
 
 .back{
 
-background:#4caf50;
-color:white;
-font-size:22px;
-transform:rotateY(180deg);
+    background:var(--indigo);
+    color:#F7F2E7;
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    font-weight:500;
+    transform:rotateY(180deg);
+    border-color:var(--indigo-deep);
 
 }
-  /* ---------- DARK MODE ---------- */
 
-body{
-    transition:.3s;
+.grid.numbers-mode .back{
+
+    font-family:'Shippori Mincho', serif;
+    font-size:17px;
+    font-weight:700;
+
 }
 
-button,
-select{
-    transition:.3s;
+.card:hover .front,
+.card:hover .back{
+
+    border-color:var(--vermilion);
+
 }
 
-.card .front,
-.card .back{
-    transition:.3s;
-}
+/* ---------- DARK MODE ---------- */
 
 body.dark{
 
-    background:#111827;
-    color:#fff;
+    background-image:
+        linear-gradient(var(--paper-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:34px 34px;
 
 }
 
-body.dark .front{
+body.dark .subtitle{
 
-    background:#1f2937;
-    color:#fff;
-
-}
-
-body.dark .back{
-
-    background:#2563eb;
-    color:white;
+    color:var(--ink-soft);
 
 }
 
-body.dark button{
+@media (max-width:520px){
 
-    background:#2563eb;
-
-}
-
-body.dark button:hover{
-
-    background:#1d4ed8;
-
-}
-
-body.dark select{
-
-    background:#1f2937;
-    color:white;
-    border:1px solid #555;
-
-}
-  select{
-
-padding:12px 12px;
-font-size:18px;
-border:none;
-border-radius:8px;
-margin:0 10px;
-cursor:pointer;
-background:white;
+    .kanji-mark{ font-size:42px; }
+    h1{ font-size:22px; }
+    button{ margin-left:0; }
 
 }
 
@@ -238,29 +376,44 @@ background:white;
 </head>
 <body>
 
-<h1>Japanese Flash Cards</h1>
+<div class="page-head">
+    <div class="kanji-mark">あ</div>
+    <div>
+        <h1>Japanese Kana</h1>
+        <div class="subtitle">HIRAGANA · KATAKANA · DAKUTEN · HANDAKUTEN · YŌON · NUMBERS</div>
+    </div>
+</div>
 
-<div class="controls">
+<div class="toolbar">
 
-   <select id="script">
-    <option value="hiragana">あ Hiragana</option>
-    <option value="katakana">ア Katakana</option>
-    <option value="numbers">数 Numbers</option>
-</select>
+    <div class="field">
+        <label for="script">Script</label>
+        <select id="script">
+            <option value="hiragana">あ Hiragana</option>
+            <option value="katakana">ア Katakana</option>
+            <option value="numbers">数 Numbers</option>
+        </select>
+    </div>
 
-   <select id="mode">
-    <option value="normal">📖 Normal</option>
-    <option value="shuffle">🔀 Shuffle</option>
-</select>
+    <div class="field">
+        <label for="mode">Order</label>
+        <select id="mode">
+            <option value="normal">Normal</option>
+            <option value="shuffle">Shuffle</option>
+        </select>
+    </div>
 
-    <select id="filter">
-        <option value="all">All</option>
-        <option value="basic">Basic</option>
-        <option value="dakuten">Dakuten (Porobortito)</option>
-        <option value="handakuten">Handakuten (Porobortito)</option>
-        <option value="yoon">Yōon (Songjukto)</option>
-    </select>
-
+    <div class="field">
+        <label for="filter">Type</label>
+        <select id="filter">
+            <option value="all">All</option>
+            <option value="basic">Basic</option>
+            <option value="dakuten">Dakuten (Porobortito)</option>
+            <option value="handakuten">Handakuten (Porobortito)</option>
+            <option value="yoon">Yōon (Songjukto)</option>
+        </select>
+    </div>
+<a class="nav-btn" href="https://najmul-hasan-nirob.github.io/japanese-flashcards/">数 Japanese Numbers Flashcards</a>
     <button id="theme">🌙 Dark</button>
 
 </div>
