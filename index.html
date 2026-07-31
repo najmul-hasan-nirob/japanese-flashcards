@@ -413,7 +413,6 @@ body.dark .subtitle{
             <option value="yoon">Yōon (Songjukto)</option>
         </select>
     </div>
-<a class="nav-btn" href="https://najmul-hasan-nirob.github.io/japanese-lang/numbers-flash-cards.html">数 Japanese Numbers Flashcards</a>
     <button id="theme">🌙 Dark</button>
 
 </div>
@@ -979,6 +978,16 @@ themeBtn.addEventListener("click",()=>{
         themeBtn.textContent="🌙 Dark";
     }
 
+});
+  
+  document.getElementById("script").addEventListener("change", function () {
+    if (this.value === "numbers") {
+        window.location.href = "/japanese-lang/numbers-flash-cards.html";
+        return;
+    }
+
+    // Nothing else happens here.
+    // Your existing Hiragana/Katakana code will continue to work.
 });
 
 </script>
