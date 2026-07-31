@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Japanese Numbers · 1–10,000</title>
+<title>Japanese Kana · Hiragana &amp; Katakana</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,15 +61,6 @@ body{
         linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
     background-size:34px 34px;
     background-position:center top;
-
-}
-
-body.dark{
-
-    background-image:
-        linear-gradient(var(--paper-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
-    background-size:34px 34px;
 
 }
 
@@ -186,81 +177,10 @@ select{
 select:hover{ border-color:var(--vermilion); }
 select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
-/* ---------- SOROBAN TOGGLE ---------- */
-
-.abacus{
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-    cursor:pointer;
-    user-select:none;
-    padding:9px 14px;
-    border:1px solid var(--paper-line);
-    border-radius:6px;
-    background:var(--paper-cell);
-    transition:border-color .2s ease;
-
-}
-
-.abacus:hover{ border-color:var(--vermilion); }
-.abacus:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
-
-.abacus-label{
-
-    font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
-    color:var(--ink-soft);
-    transition:color .2s ease, font-weight .2s ease;
-
-}
-
-.abacus-label.active{
-
-    color:var(--vermilion);
-    font-weight:600;
-
-}
-
-.rod{
-
-    position:relative;
-    width:52px;
-    height:3px;
-    background:var(--ink-soft);
-    border-radius:2px;
-
-}
-
-.bead{
-
-    position:absolute;
-    top:50%;
-    left:0;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:var(--vermilion);
-    box-shadow:0 1px 4px rgba(0,0,0,.25);
-    transform:translate(0,-50%);
-    transition:transform .28s cubic-bezier(.5,-0.3,.5,1.3);
-
-}
-
-.abacus.right .bead{
-
-    transform:translate(32px,-50%);
-
-}
-
-@media (prefers-reduced-motion:reduce){
-    .bead{ transition:none; }
-}
-
 /* ---------- NAV / DARK TOGGLE ---------- */
 
 .nav-btn,
-.theme-btn{
+button{
 
     font-family:'JetBrains Mono', monospace;
     font-size:13px;
@@ -278,27 +198,52 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 }
 
-.nav-btn{
+.nav-button{
 
     margin-left:auto;
 
 }
 
 .nav-btn:hover,
-.theme-btn:hover{ border-color:var(--vermilion); color:var(--vermilion); }
+button:hover{ border-color:var(--vermilion); color:var(--vermilion); background:var(--paper-cell); }
 
 .nav-btn:focus-visible,
-.theme-btn:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
+button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 /* ---------- GRID ---------- */
 
 .grid{
-
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
     max-width:980px;
     margin:0 auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-    gap:10px;
+}
+
+.grid.table-mode{
+
+    grid-template-columns:repeat(5,1fr) !important;
+
+
+}
+
+.grid.yoon-mode{
+
+    grid-template-columns:repeat(3,1fr) !important;
+    max-width:520px;
+
+}
+
+.grid.numbers-mode{
+
+    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+
+}
+
+.card.blank{
+
+    visibility:hidden;
+    pointer-events:none;
 
 }
 
@@ -349,14 +294,29 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     box-shadow:var(--shadow);
 
 }
+  .nav-btn {
+    margin-left: auto;
+} 
 
 .front{
 
     background:var(--paper-cell);
     color:var(--ink);
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:26px;
+
+}
+
+@media only screen and (max-width: 500px) {
+    .front{ font-size:21px; }
+}
+
+.grid.numbers-mode .front{
+
     font-family:'JetBrains Mono', monospace;
-    font-size:13.5px;
     font-weight:500;
+    font-size:13.5px;
 
 }
 
@@ -364,11 +324,19 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
     background:var(--indigo);
     color:#F7F2E7;
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px;
+    font-weight:500;
+    transform:rotateY(180deg);
+    border-color:var(--indigo-deep);
+
+}
+
+.grid.numbers-mode .back{
+
     font-family:'Shippori Mincho', serif;
     font-size:17px;
     font-weight:700;
-    transform:rotateY(180deg);
-    border-color:var(--indigo-deep);
 
 }
 
@@ -379,42 +347,20 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 }
 
-.card.milestone .front::after,
-.card.milestone .back::after{
+/* ---------- DARK MODE ---------- */
 
-    content:"";
-    position:absolute;
-    top:5px;
-    right:5px;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:var(--vermilion);
+body.dark{
+
+    background-image:
+        linear-gradient(var(--paper-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:34px 34px;
 
 }
 
-/* ---------- FOOTNOTE ---------- */
+body.dark .subtitle{
 
-.footnote{
-
-    max-width:980px;
-    margin:26px auto 0;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
     color:var(--ink-soft);
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-}
-
-.footnote .dot{
-
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:var(--vermilion);
-    flex-shrink:0;
 
 }
 
@@ -422,7 +368,7 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
     .kanji-mark{ font-size:42px; }
     h1{ font-size:22px; }
-    .nav-btn{ margin-left:0; }
+    button{ margin-left:0; }
 
 }
 
@@ -431,22 +377,21 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 <body>
 
 <div class="page-head">
-    <div class="kanji-mark">数</div>
+    <div class="kanji-mark">あ</div>
     <div>
-        <h1>Japanese Numbers</h1>
-        <div class="subtitle">1–1,000 IN FULL · 1,000–10,000 BY THOUSANDS</div>
+        <h1>Japanese Kana</h1>
+        <div class="subtitle">HIRAGANA · KATAKANA · DAKUTEN · HANDAKUTEN · YŌON · NUMBERS</div>
     </div>
 </div>
 
 <div class="toolbar">
 
     <div class="field">
-        <label for="range">Range</label>
-        <select id="range">
-            <option value="all">All</option>
-            <option value="1-100">1 – 100</option>
-            <option value="101-1000">101 – 1,000</option>
-            <option value="thousands">Thousands</option>
+        <label for="script">Script</label>
+        <select id="script">
+            <option value="hiragana">あ Hiragana</option>
+            <option value="katakana">ア Katakana</option>
+            <option value="numbers">数 Numbers</option>
         </select>
     </div>
 
@@ -459,94 +404,361 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     </div>
 
     <div class="field">
-        <label>Shows first</label>
-        <div class="abacus" id="direction" role="button" tabindex="0" aria-pressed="false">
-            <span class="abacus-label left active">reading</span>
-            <div class="rod"><div class="bead" id="bead"></div></div>
-            <span class="abacus-label right">123</span>
-        </div>
+        <label for="filter">Type</label>
+        <select id="filter">
+            <option value="all">All</option>
+            <option value="basic">Basic</option>
+            <option value="dakuten">Dakuten (Porobortito)</option>
+            <option value="handakuten">Handakuten (Porobortito)</option>
+            <option value="yoon">Yōon (Songjukto)</option>
+        </select>
     </div>
-
-    <a class="nav-btn" href="/japanese-lang/index.html">あ Kana Flashcards</a>
-
-    <button class="theme-btn" id="theme">🌙 Dark</button>
-
+<a class="nav-btn" href="https://najmul-hasan-nirob.github.io/japanese-lang/numbers-flash-cards.html">数 Japanese Numbers Flashcards</a>
+    <button id="theme">🌙 Dark</button>
 
 </div>
 
 <div class="grid" id="grid"></div>
 
-<div class="footnote"><span class="dot"></span>marked cards are round-number milestones (hundreds &amp; thousands)</div>
-
 <script>
 
-// =====================
-// Japanese number reading generator
-// =====================
 
-function numberToRomaji(n){
 
-    if(n===0) return "zero";
+const hiraganaChars = [
 
-    let remainder = n;
+    // =========================
+    // Basic
+    // =========================
 
-    const man = Math.floor(remainder/10000); remainder%=10000;
-    const sen = Math.floor(remainder/1000); remainder%=1000;
-    const hyaku = Math.floor(remainder/100); remainder%=100;
-    const juu = Math.floor(remainder/10); remainder%=10;
-    const ichi = remainder;
+    {jp:"あ",en:"a",type:"basic"},
+    {jp:"い",en:"i",type:"basic"},
+    {jp:"う",en:"u",type:"basic"},
+    {jp:"え",en:"e",type:"basic"},
+    {jp:"お",en:"o",type:"basic"},
 
-    const digitWords = ["","ichi","ni","san","yon","go","roku","nana","hachi","kyuu"];
+    {jp:"か",en:"ka",type:"basic"},
+    {jp:"き",en:"ki",type:"basic"},
+    {jp:"く",en:"ku",type:"basic"},
+    {jp:"け",en:"ke",type:"basic"},
+    {jp:"こ",en:"ko",type:"basic"},
 
-    const hyakuWords = {
-        1:"hyaku", 2:"nihyaku", 3:"sanbyaku", 4:"yonhyaku", 5:"gohyaku",
-        6:"roppyaku", 7:"nanahyaku", 8:"happyaku", 9:"kyuuhyaku"
-    };
+    {jp:"さ",en:"sa",type:"basic"},
+    {jp:"し",en:"shi",type:"basic"},
+    {jp:"す",en:"su",type:"basic"},
+    {jp:"せ",en:"se",type:"basic"},
+    {jp:"そ",en:"so",type:"basic"},
 
-    const senWords = {
-        1:"sen", 2:"nisen", 3:"sanzen", 4:"yonsen", 5:"gosen",
-        6:"rokusen", 7:"nanasen", 8:"hassen", 9:"kyuusen"
-    };
+    {jp:"た",en:"ta",type:"basic"},
+    {jp:"ち",en:"chi",type:"basic"},
+    {jp:"つ",en:"tsu",type:"basic"},
+    {jp:"て",en:"te",type:"basic"},
+    {jp:"と",en:"to",type:"basic"},
 
-    let result = "";
+    {jp:"な",en:"na",type:"basic"},
+    {jp:"に",en:"ni",type:"basic"},
+    {jp:"ぬ",en:"nu",type:"basic"},
+    {jp:"ね",en:"ne",type:"basic"},
+    {jp:"の",en:"no",type:"basic"},
 
-    if(man>0){ result += (man===1 ? "ichi" : digitWords[man]) + "man"; }
-    if(sen>0){ result += senWords[sen]; }
-    if(hyaku>0){ result += hyakuWords[hyaku]; }
-    if(juu>0){ result += (juu===1 ? "" : digitWords[juu]) + "juu"; }
-    if(ichi>0){ result += digitWords[ichi]; }
+    {jp:"は",en:"ha",type:"basic"},
+    {jp:"ひ",en:"hi",type:"basic"},
+    {jp:"ふ",en:"fu",type:"basic"},
+    {jp:"へ",en:"he",type:"basic"},
+    {jp:"ほ",en:"ho",type:"basic"},
 
-    return result;
+    {jp:"ま",en:"ma",type:"basic"},
+    {jp:"み",en:"mi",type:"basic"},
+    {jp:"む",en:"mu",type:"basic"},
+    {jp:"め",en:"me",type:"basic"},
+    {jp:"も",en:"mo",type:"basic"},
 
-}
+    {jp:"や",en:"ya",type:"basic"},
+    {jp:"ゆ",en:"yu",type:"basic"},
+    {jp:"よ",en:"yo",type:"basic"},
 
-// =====================
-// Build the data set
-// =====================
+    {jp:"ら",en:"ra",type:"basic"},
+    {jp:"り",en:"ri",type:"basic"},
+    {jp:"る",en:"ru",type:"basic"},
+    {jp:"れ",en:"re",type:"basic"},
+    {jp:"ろ",en:"ro",type:"basic"},
 
-const numbersData = [];
+    {jp:"わ",en:"wa",type:"basic"},
+    {jp:"を",en:"wo",type:"basic"},
+    {jp:"ん",en:"n",type:"basic"},
 
-for(let i=1;i<=1000;i++){
-    numbersData.push({
-        num:i,
-        jp:numberToRomaji(i),
-        range: i<=100 ? "1-100" : "101-1000",
-        milestone: i % 100 === 0
-    });
-}
+    // =========================
+    // Dakuten
+    // =========================
 
-for(let i=2000;i<=10000;i+=1000){
-    numbersData.push({
-        num:i,
-        jp:numberToRomaji(i),
-        range:"thousands",
-        milestone:true
-    });
-}
+    {jp:"が",en:"ga",type:"dakuten"},
+    {jp:"ぎ",en:"gi",type:"dakuten"},
+    {jp:"ぐ",en:"gu",type:"dakuten"},
+    {jp:"げ",en:"ge",type:"dakuten"},
+    {jp:"ご",en:"go",type:"dakuten"},
 
-// =====================
-// Helpers
-// =====================
+    {jp:"ざ",en:"za",type:"dakuten"},
+    {jp:"じ",en:"ji",type:"dakuten"},
+    {jp:"ず",en:"zu",type:"dakuten"},
+    {jp:"ぜ",en:"ze",type:"dakuten"},
+    {jp:"ぞ",en:"zo",type:"dakuten"},
+
+    {jp:"だ",en:"da",type:"dakuten"},
+    {jp:"ぢ",en:"ji",type:"dakuten"},
+    {jp:"づ",en:"zu",type:"dakuten"},
+    {jp:"で",en:"de",type:"dakuten"},
+    {jp:"ど",en:"do",type:"dakuten"},
+
+    {jp:"ば",en:"ba",type:"dakuten"},
+    {jp:"び",en:"bi",type:"dakuten"},
+    {jp:"ぶ",en:"bu",type:"dakuten"},
+    {jp:"べ",en:"be",type:"dakuten"},
+    {jp:"ぼ",en:"bo",type:"dakuten"},
+
+    // =========================
+    // Handakuten
+    // =========================
+
+    {jp:"ぱ",en:"pa",type:"handakuten"},
+    {jp:"ぴ",en:"pi",type:"handakuten"},
+    {jp:"ぷ",en:"pu",type:"handakuten"},
+    {jp:"ぺ",en:"pe",type:"handakuten"},
+    {jp:"ぽ",en:"po",type:"handakuten"},
+
+    // =========================
+    // Yoon
+    // =========================
+
+    {jp:"きゃ",en:"kya",type:"yoon"},
+    {jp:"きゅ",en:"kyu",type:"yoon"},
+    {jp:"きょ",en:"kyo",type:"yoon"},
+
+    {jp:"ぎゃ",en:"gya",type:"yoon"},
+    {jp:"ぎゅ",en:"gyu",type:"yoon"},
+    {jp:"ぎょ",en:"gyo",type:"yoon"},
+
+    {jp:"しゃ",en:"sha",type:"yoon"},
+    {jp:"しゅ",en:"shu",type:"yoon"},
+    {jp:"しょ",en:"sho",type:"yoon"},
+
+    {jp:"じゃ",en:"ja",type:"yoon"},
+    {jp:"じゅ",en:"ju",type:"yoon"},
+    {jp:"じょ",en:"jo",type:"yoon"},
+
+    {jp:"ちゃ",en:"cha",type:"yoon"},
+    {jp:"ちゅ",en:"chu",type:"yoon"},
+    {jp:"ちょ",en:"cho",type:"yoon"},
+
+    {jp:"にゃ",en:"nya",type:"yoon"},
+    {jp:"にゅ",en:"nyu",type:"yoon"},
+    {jp:"にょ",en:"nyo",type:"yoon"},
+
+    {jp:"ひゃ",en:"hya",type:"yoon"},
+    {jp:"ひゅ",en:"hyu",type:"yoon"},
+    {jp:"ひょ",en:"hyo",type:"yoon"},
+
+    {jp:"びゃ",en:"bya",type:"yoon"},
+    {jp:"びゅ",en:"byu",type:"yoon"},
+    {jp:"びょ",en:"byo",type:"yoon"},
+
+    {jp:"ぴゃ",en:"pya",type:"yoon"},
+    {jp:"ぴゅ",en:"pyu",type:"yoon"},
+    {jp:"ぴょ",en:"pyo",type:"yoon"},
+
+    {jp:"みゃ",en:"mya",type:"yoon"},
+    {jp:"みゅ",en:"myu",type:"yoon"},
+    {jp:"みょ",en:"myo",type:"yoon"},
+
+    {jp:"りゃ",en:"rya",type:"yoon"},
+    {jp:"りゅ",en:"ryu",type:"yoon"},
+    {jp:"りょ",en:"ryo",type:"yoon"}
+
+];
+
+const katakanaChars = [
+
+    // =========================
+    // Basic
+    // =========================
+
+    {jp:"ア",en:"a",type:"basic"},
+    {jp:"イ",en:"i",type:"basic"},
+    {jp:"ウ",en:"u",type:"basic"},
+    {jp:"エ",en:"e",type:"basic"},
+    {jp:"オ",en:"o",type:"basic"},
+
+    {jp:"カ",en:"ka",type:"basic"},
+    {jp:"キ",en:"ki",type:"basic"},
+    {jp:"ク",en:"ku",type:"basic"},
+    {jp:"ケ",en:"ke",type:"basic"},
+    {jp:"コ",en:"ko",type:"basic"},
+
+    {jp:"サ",en:"sa",type:"basic"},
+    {jp:"シ",en:"shi",type:"basic"},
+    {jp:"ス",en:"su",type:"basic"},
+    {jp:"セ",en:"se",type:"basic"},
+    {jp:"ソ",en:"so",type:"basic"},
+
+    {jp:"タ",en:"ta",type:"basic"},
+    {jp:"チ",en:"chi",type:"basic"},
+    {jp:"ツ",en:"tsu",type:"basic"},
+    {jp:"テ",en:"te",type:"basic"},
+    {jp:"ト",en:"to",type:"basic"},
+
+    {jp:"ナ",en:"na",type:"basic"},
+    {jp:"ニ",en:"ni",type:"basic"},
+    {jp:"ヌ",en:"nu",type:"basic"},
+    {jp:"ネ",en:"ne",type:"basic"},
+    {jp:"ノ",en:"no",type:"basic"},
+
+    {jp:"ハ",en:"ha",type:"basic"},
+    {jp:"ヒ",en:"hi",type:"basic"},
+    {jp:"フ",en:"fu",type:"basic"},
+    {jp:"ヘ",en:"he",type:"basic"},
+    {jp:"ホ",en:"ho",type:"basic"},
+
+    {jp:"マ",en:"ma",type:"basic"},
+    {jp:"ミ",en:"mi",type:"basic"},
+    {jp:"ム",en:"mu",type:"basic"},
+    {jp:"メ",en:"me",type:"basic"},
+    {jp:"モ",en:"mo",type:"basic"},
+
+    {jp:"ヤ",en:"ya",type:"basic"},
+    {jp:"ユ",en:"yu",type:"basic"},
+    {jp:"ヨ",en:"yo",type:"basic"},
+
+    {jp:"ラ",en:"ra",type:"basic"},
+    {jp:"リ",en:"ri",type:"basic"},
+    {jp:"ル",en:"ru",type:"basic"},
+    {jp:"レ",en:"re",type:"basic"},
+    {jp:"ロ",en:"ro",type:"basic"},
+
+    {jp:"ワ",en:"wa",type:"basic"},
+    {jp:"ヲ",en:"wo",type:"basic"},
+    {jp:"ン",en:"n",type:"basic"},
+
+    // =========================
+    // Dakuten
+    // =========================
+
+    {jp:"ガ",en:"ga",type:"dakuten"},
+    {jp:"ギ",en:"gi",type:"dakuten"},
+    {jp:"グ",en:"gu",type:"dakuten"},
+    {jp:"ゲ",en:"ge",type:"dakuten"},
+    {jp:"ゴ",en:"go",type:"dakuten"},
+
+    {jp:"ザ",en:"za",type:"dakuten"},
+    {jp:"ジ",en:"ji",type:"dakuten"},
+    {jp:"ズ",en:"zu",type:"dakuten"},
+    {jp:"ゼ",en:"ze",type:"dakuten"},
+    {jp:"ゾ",en:"zo",type:"dakuten"},
+
+    {jp:"ダ",en:"da",type:"dakuten"},
+    {jp:"ヂ",en:"ji",type:"dakuten"},
+    {jp:"ヅ",en:"zu",type:"dakuten"},
+    {jp:"デ",en:"de",type:"dakuten"},
+    {jp:"ド",en:"do",type:"dakuten"},
+
+    {jp:"バ",en:"ba",type:"dakuten"},
+    {jp:"ビ",en:"bi",type:"dakuten"},
+    {jp:"ブ",en:"bu",type:"dakuten"},
+    {jp:"ベ",en:"be",type:"dakuten"},
+    {jp:"ボ",en:"bo",type:"dakuten"},
+
+    // =========================
+    // Handakuten
+    // =========================
+
+    {jp:"パ",en:"pa",type:"handakuten"},
+    {jp:"ピ",en:"pi",type:"handakuten"},
+    {jp:"プ",en:"pu",type:"handakuten"},
+    {jp:"ペ",en:"pe",type:"handakuten"},
+    {jp:"ポ",en:"po",type:"handakuten"},
+
+    // =========================
+    // Yoon
+    // =========================
+
+    {jp:"キャ",en:"kya",type:"yoon"},
+    {jp:"キュ",en:"kyu",type:"yoon"},
+    {jp:"キョ",en:"kyo",type:"yoon"},
+
+    {jp:"ギャ",en:"gya",type:"yoon"},
+    {jp:"ギュ",en:"gyu",type:"yoon"},
+    {jp:"ギョ",en:"gyo",type:"yoon"},
+
+    {jp:"シャ",en:"sha",type:"yoon"},
+    {jp:"シュ",en:"shu",type:"yoon"},
+    {jp:"ショ",en:"sho",type:"yoon"},
+
+    {jp:"ジャ",en:"ja",type:"yoon"},
+    {jp:"ジュ",en:"ju",type:"yoon"},
+    {jp:"ジョ",en:"jo",type:"yoon"},
+
+    {jp:"チャ",en:"cha",type:"yoon"},
+    {jp:"チュ",en:"chu",type:"yoon"},
+    {jp:"チョ",en:"cho",type:"yoon"},
+
+    {jp:"ニャ",en:"nya",type:"yoon"},
+    {jp:"ニュ",en:"nyu",type:"yoon"},
+    {jp:"ニョ",en:"nyo",type:"yoon"},
+
+    {jp:"ヒャ",en:"hya",type:"yoon"},
+    {jp:"ヒュ",en:"hyu",type:"yoon"},
+    {jp:"ヒョ",en:"hyo",type:"yoon"},
+
+    {jp:"ビャ",en:"bya",type:"yoon"},
+    {jp:"ビュ",en:"byu",type:"yoon"},
+    {jp:"ビョ",en:"byo",type:"yoon"},
+
+    {jp:"ピャ",en:"pya",type:"yoon"},
+    {jp:"ピュ",en:"pyu",type:"yoon"},
+    {jp:"ピョ",en:"pyo",type:"yoon"},
+
+    {jp:"ミャ",en:"mya",type:"yoon"},
+    {jp:"ミュ",en:"myu",type:"yoon"},
+    {jp:"ミョ",en:"myo",type:"yoon"},
+
+    {jp:"リャ",en:"rya",type:"yoon"},
+    {jp:"リュ",en:"ryu",type:"yoon"},
+    {jp:"リョ",en:"ryo",type:"yoon"}
+
+];
+
+const numbersChars = [
+
+    {jp:"rei / zero",en:"0",type:"basic"},
+    {jp:"ichi",en:"1",type:"basic"},
+    {jp:"ni",en:"2",type:"basic"},
+    {jp:"san",en:"3",type:"basic"},
+    {jp:"yon / shi",en:"4",type:"basic"},
+    {jp:"go",en:"5",type:"basic"},
+    {jp:"roku",en:"6",type:"basic"},
+    {jp:"nana / shichi",en:"7",type:"basic"},
+    {jp:"hachi",en:"8",type:"basic"},
+    {jp:"kyuu",en:"9",type:"basic"},
+    {jp:"juu",en:"10",type:"basic"},
+    {jp:"juuichi",en:"11",type:"basic"},
+    {jp:"juuni",en:"12",type:"basic"},
+    {jp:"juusan",en:"13",type:"basic"},
+    {jp:"juuyon",en:"14",type:"basic"},
+    {jp:"juugo",en:"15",type:"basic"},
+    {jp:"juuroku",en:"16",type:"basic"},
+    {jp:"juunana",en:"17",type:"basic"},
+    {jp:"juuhachi",en:"18",type:"basic"},
+    {jp:"juukyuu",en:"19",type:"basic"},
+    {jp:"nijuu",en:"20",type:"basic"},
+    {jp:"sanjuu",en:"30",type:"basic"},
+    {jp:"yonjuu",en:"40",type:"basic"},
+    {jp:"gojuu",en:"50",type:"basic"},
+    {jp:"rokujuu",en:"60",type:"basic"},
+    {jp:"nanajuu",en:"70",type:"basic"},
+    {jp:"hachijuu",en:"80",type:"basic"},
+    {jp:"kyuujuu",en:"90",type:"basic"},
+    {jp:"hyaku",en:"100",type:"basic"},
+    {jp:"sen",en:"1000",type:"basic"},
+    {jp:"man",en:"10000",type:"basic"}
+
+];
 
 function shuffle(array){
     for(let i=array.length-1;i>0;i--){
@@ -556,45 +768,170 @@ function shuffle(array){
 }
 
 const grid=document.getElementById("grid");
-const rangeSel=document.getElementById("range");
-const mode=document.getElementById("mode");
-const directionToggle=document.getElementById("direction");
-const labelLeft=directionToggle.querySelector(".left");
-const labelRight=directionToggle.querySelector(".right");
+const filter=document.getElementById("filter");
+const mode = document.getElementById("mode");
+const scriptSel = document.getElementById("script");
 
-let showJapaneseFirst = true;
+const gojuonRows = [
+    ["a","i","u","e","o"],
+    ["ka","ki","ku","ke","ko"],
+    ["sa","shi","su","se","so"],
+    ["ta","chi","tsu","te","to"],
+    ["na","ni","nu","ne","no"],
+    ["ha","hi","fu","he","ho"],
+    ["ma","mi","mu","me","mo"],
+    ["ya",null,"yu",null,"yo"],
+    ["ra","ri","ru","re","ro"],
+    ["wa",null,null,null,"wo"],
+    ["n",null,null,null,null]
+];
+
+const yoonRows = [
+    ["kya","kyu","kyo"],
+    ["gya","gyu","gyo"],
+    ["sha","shu","sho"],
+    ["ja","ju","jo"],
+    ["cha","chu","cho"],
+    ["nya","nyu","nyo"],
+    ["hya","hyu","hyo"],
+    ["bya","byu","byo"],
+    ["pya","pyu","pyo"],
+    ["mya","myu","myo"],
+    ["rya","ryu","ryo"]
+];
 
 function render(){
 
     grid.innerHTML="";
 
-    let cards;
-
-    if(rangeSel.value==="all"){
-        cards=[...numbersData];
+    let source;
+    if(scriptSel.value === "katakana"){
+        source = katakanaChars;
+    }else if(scriptSel.value === "numbers"){
+        source = numbersChars;
     }else{
-        cards=numbersData.filter(item=>item.range===rangeSel.value);
+        source = hiraganaChars;
     }
 
+    filter.style.display = scriptSel.value === "numbers" ? "none" : "inline-block";
+    grid.classList.toggle("numbers-mode", scriptSel.value === "numbers");
+
+    const isJpScript = (scriptSel.value === "hiragana" || scriptSel.value === "katakana");
+
+    const useTableLayout =
+        isJpScript &&
+        filter.value === "basic" &&
+        mode.value === "normal";
+
+    const useYoonLayout =
+        isJpScript &&
+        filter.value === "yoon" &&
+        mode.value === "normal";
+
+    grid.classList.toggle("table-mode", useTableLayout);
+    grid.classList.toggle("yoon-mode", useYoonLayout);
+
+    if(useTableLayout){
+
+        const lookup = {};
+        source.filter(c=>c.type==="basic").forEach(c=>{ lookup[c.en]=c; });
+
+        gojuonRows.forEach(row=>{
+            row.forEach(code=>{
+
+                const card=document.createElement("div");
+
+                if(code===null || !lookup[code]){
+                    card.className="card blank";
+                    grid.appendChild(card);
+                    return;
+                }
+
+                const item=lookup[code];
+
+                card.className="card";
+
+                card.innerHTML=`
+                    <div class="inner">
+                        <div class="front">${item.jp}</div>
+                        <div class="back">${item.en}</div>
+                    </div>
+                `;
+
+                card.addEventListener("click",()=>{
+                    card.classList.toggle("flipped");
+                });
+
+                grid.appendChild(card);
+
+            });
+        });
+
+        return;
+    }
+
+    if(useYoonLayout){
+
+        const lookup = {};
+        source.filter(c=>c.type==="yoon").forEach(c=>{ lookup[c.en]=c; });
+
+        yoonRows.forEach(row=>{
+            row.forEach(code=>{
+
+                const card=document.createElement("div");
+
+                if(!lookup[code]){
+                    card.className="card blank";
+                    grid.appendChild(card);
+                    return;
+                }
+
+                const item=lookup[code];
+
+                card.className="card";
+
+                card.innerHTML=`
+                    <div class="inner">
+                        <div class="front">${item.jp}</div>
+                        <div class="back">${item.en}</div>
+                    </div>
+                `;
+
+                card.addEventListener("click",()=>{
+                    card.classList.toggle("flipped");
+                });
+
+                grid.appendChild(card);
+
+            });
+        });
+
+        return;
+    }
+
+    let cards;
+
+    if(filter.value==="all"){
+        cards=[...source];
+    }else{
+        cards=source.filter(card=>card.type===filter.value);
+    }
+
+    // Shuffle only when Shuffle mode is selected
     if(mode.value==="shuffle"){
         shuffle(cards);
     }
-
-    const frag=document.createDocumentFragment();
 
     cards.forEach(item=>{
 
         const card=document.createElement("div");
 
-        card.className="card" + (item.milestone ? " milestone" : "");
-
-        const frontText = showJapaneseFirst ? item.jp : item.num;
-        const backText = showJapaneseFirst ? item.num : item.jp;
+        card.className="card";
 
         card.innerHTML=`
             <div class="inner">
-                <div class="front">${frontText}</div>
-                <div class="back">${backText}</div>
+                <div class="front">${item.jp}</div>
+                <div class="back">${item.en}</div>
             </div>
         `;
 
@@ -602,11 +939,10 @@ function render(){
             card.classList.toggle("flipped");
         });
 
-        frag.appendChild(card);
+        grid.appendChild(card);
 
     });
 
-    grid.appendChild(frag);
 
 }
 
@@ -616,30 +952,9 @@ render();
 // Controls
 // =====================
 
-rangeSel.addEventListener("change",render);
+scriptSel.addEventListener("change",render);
 mode.addEventListener("change",render);
-
-function toggleDirection(){
-
-    showJapaneseFirst = !showJapaneseFirst;
-
-    directionToggle.classList.toggle("right", !showJapaneseFirst);
-    directionToggle.setAttribute("aria-pressed", String(!showJapaneseFirst));
-
-    labelLeft.classList.toggle("active", showJapaneseFirst);
-    labelRight.classList.toggle("active", !showJapaneseFirst);
-
-    render();
-
-}
-
-directionToggle.addEventListener("click",toggleDirection);
-directionToggle.addEventListener("keydown",(e)=>{
-    if(e.key==="Enter" || e.key===" "){
-        e.preventDefault();
-        toggleDirection();
-    }
-});
+filter.addEventListener("change",render);
 
 // =====================
 // Dark Mode
@@ -664,6 +979,16 @@ themeBtn.addEventListener("click",()=>{
         themeBtn.textContent="🌙 Dark";
     }
 
+});
+  
+  document.getElementById("script").addEventListener("change", function () {
+    if (this.value === "numbers") {
+        window.location.href = "/japanese-lang/numbers-flash-cards.html";
+        return;
+    }
+
+    // Nothing else happens here.
+    // Your existing Hiragana/Katakana code will continue to work.
 });
 
 </script>
