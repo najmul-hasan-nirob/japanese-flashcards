@@ -132,8 +132,9 @@ h1{
     padding:14px 18px;
     display:flex;
     flex-wrap:wrap;
-    align-items:center;
+    align-items:flex-end;
     gap:14px;
+    position:relative;
     transition:background-color .35s ease, border-color .35s ease;
 
 }
@@ -143,6 +144,7 @@ h1{
     display:flex;
     flex-direction:column;
     gap:4px;
+    position:relative;
 
 }
 
@@ -177,6 +179,80 @@ select{
 select:hover{ border-color:var(--vermilion); }
 select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
+/* ---------- MULTI-SELECT DROPDOWN ---------- */
+
+.multiselect-btn{
+
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:14px;
+    padding:9px 34px 9px 12px;
+    border:1px solid var(--paper-line);
+    border-radius:6px;
+    background:var(--paper-cell);
+    color:var(--ink);
+    cursor:pointer;
+    min-width:168px;
+    text-align:left;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    position:relative;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%237A705E'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    transition:border-color .2s ease;
+
+}
+
+.multiselect-btn:hover{ border-color:var(--vermilion); }
+.multiselect-btn:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
+
+.multiselect-panel{
+
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0;
+    background:var(--paper-cell);
+    border:1px solid var(--paper-line);
+    border-radius:8px;
+    box-shadow:var(--shadow);
+    padding:8px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    z-index:30;
+    min-width:210px;
+
+}
+
+.multiselect-panel.open{ display:flex; }
+
+.multiselect-panel label{
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-size:13.5px;
+    padding:7px 8px;
+    border-radius:5px;
+    cursor:pointer;
+    transition:background-color .15s ease;
+
+}
+
+.multiselect-panel label:hover{ background:var(--vermilion-soft); }
+
+.multiselect-panel input[type=checkbox]{
+
+    accent-color:var(--vermilion);
+    width:15px;
+    height:15px;
+    cursor:pointer;
+    flex-shrink:0;
+
+}
+
 /* ---------- NAV / DARK TOGGLE ---------- */
 
 .nav-btn,
@@ -198,17 +274,23 @@ button{
 
 }
 
-button{
-
-    margin-left:auto;
-
-}
-
 .nav-btn:hover,
 button:hover{ border-color:var(--vermilion); color:var(--vermilion); background:var(--paper-cell); }
 
 .nav-btn:focus-visible,
 button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
+
+.shuffle-btn{
+
+    margin-left:0;
+
+}
+
+.field-theme{
+
+    margin-left:auto;
+
+}
 
 /* ---------- GRID ---------- */
 
@@ -223,7 +305,7 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 .grid.table-mode{
 
     grid-template-columns:repeat(5,1fr) !important;
-
+    max-width:640px;
 
 }
 
@@ -231,12 +313,6 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
     grid-template-columns:repeat(3,1fr) !important;
     max-width:520px;
-
-}
-
-.grid.numbers-mode{
-
-    grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
 
 }
 
@@ -294,15 +370,11 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     box-shadow:var(--shadow);
 
 }
-  .nav-btn {
-    margin-left: auto;
-} 
 
 .front{
 
     background:var(--paper-cell);
     color:var(--ink);
-    /* font-family:'Shippori Mincho', serif; */
     font-weight:700;
     font-size:26px;
 
@@ -310,24 +382,11 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 @media only screen and (max-width: 500px) {
     .front{ font-size:21px; }
-        button {
-        width: 100%;
-    }
-    .field {
-    width: 100%;
+    button{ width:100%; justify-content:center; }
+    .field{ width:100%; }
+    .field-theme{ margin-left:0; }
+    .multiselect-panel{ left:0; right:0; }
 }
-}
-
-.grid.numbers-mode .front{
-
-    font-family:'JetBrains Mono', monospace;
-    font-weight:500;
-    font-size:13.5px;
-
-}
-  .field-theme{
-    margin-left: auto;
-  }
 
 .back{
 
@@ -338,14 +397,6 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     font-weight:500;
     transform:rotateY(180deg);
     border-color:var(--indigo-deep);
-
-}
-
-.grid.numbers-mode .back{
-
-    font-family:'Shippori Mincho', serif;
-    font-size:17px;
-    font-weight:700;
 
 }
 
@@ -377,7 +428,6 @@ body.dark .subtitle{
 
     .kanji-mark{ font-size:42px; }
     h1{ font-size:22px; }
-    button{ margin-left:0; }
 
 }
 
@@ -389,19 +439,19 @@ body.dark .subtitle{
     <div class="kanji-mark">あ</div>
     <div>
         <h1>Japanese Kana</h1>
-        <div class="subtitle">HIRAGANA · KATAKANA · DAKUTEN · HANDAKUTEN · YŌON · NUMBERS</div>
+        <div class="subtitle">HIRAGANA · KATAKANA · DAKUTEN · HANDAKUTEN · YŌON</div>
     </div>
 </div>
 
 <div class="toolbar">
 
     <div class="field">
-        <label for="script">Script</label>
-        <select id="script">
-            <option value="hiragana">あ Hiragana</option>
-            <option value="katakana">ア Katakana</option>
-            <option value="numbers">数 Numbers</option>
-        </select>
+        <label id="scriptLabel">Script</label>
+        <button type="button" class="multiselect-btn" id="scriptBtn" aria-haspopup="true" aria-expanded="false">Hiragana + Katakana</button>
+        <div class="multiselect-panel" id="scriptPanel">
+            <label><input type="checkbox" value="hiragana" checked> あ Hiragana</label>
+            <label><input type="checkbox" value="katakana" checked> ア Katakana</label>
+        </div>
     </div>
 
     <div class="field">
@@ -413,17 +463,25 @@ body.dark .subtitle{
     </div>
 
     <div class="field">
-        <label for="filter">Type</label>
-        <select id="filter">
-            <option value="all">All</option>
-            <option value="basic">Basic</option>
-            <option value="dakuten">Dakuten (Porobortito)</option>
-            <option value="handakuten">Handakuten (Porobortito)</option>
-            <option value="yoon">Yōon (Songjukto)</option>
-        </select>
+        <label id="typeLabel">Type</label>
+        <button type="button" class="multiselect-btn" id="typeBtn" aria-haspopup="true" aria-expanded="false">All types</button>
+        <div class="multiselect-panel" id="typePanel">
+            <label><input type="checkbox" value="basic" checked> Basic</label>
+            <label><input type="checkbox" value="dakuten" checked> Dakuten (Porobortito)</label>
+            <label><input type="checkbox" value="handakuten" checked> Handakuten (Porobortito)</label>
+            <label><input type="checkbox" value="yoon" checked> Yōon (Songjukto)</label>
+        </div>
     </div>
+
+    <div class="field">
+        <label>&nbsp;</label>
+        <button id="shuffleBtn" class="shuffle-btn" type="button">🔀 Shuffle</button>
+    </div>
+
+    <a class="nav-btn" href="/japanese-lang/numbers-flash-cards.html">数 Numbers</a>
+
   <div class="field field-theme">
-  <label for="filter">Theme</label>
+  <label>Theme</label>
     <button id="theme">🌙 Dark</button>
   </div>
 
@@ -735,42 +793,6 @@ const katakanaChars = [
 
 ];
 
-const numbersChars = [
-
-    {jp:"rei / zero",en:"0",type:"basic"},
-    {jp:"ichi",en:"1",type:"basic"},
-    {jp:"ni",en:"2",type:"basic"},
-    {jp:"san",en:"3",type:"basic"},
-    {jp:"yon / shi",en:"4",type:"basic"},
-    {jp:"go",en:"5",type:"basic"},
-    {jp:"roku",en:"6",type:"basic"},
-    {jp:"nana / shichi",en:"7",type:"basic"},
-    {jp:"hachi",en:"8",type:"basic"},
-    {jp:"kyuu",en:"9",type:"basic"},
-    {jp:"juu",en:"10",type:"basic"},
-    {jp:"juuichi",en:"11",type:"basic"},
-    {jp:"juuni",en:"12",type:"basic"},
-    {jp:"juusan",en:"13",type:"basic"},
-    {jp:"juuyon",en:"14",type:"basic"},
-    {jp:"juugo",en:"15",type:"basic"},
-    {jp:"juuroku",en:"16",type:"basic"},
-    {jp:"juunana",en:"17",type:"basic"},
-    {jp:"juuhachi",en:"18",type:"basic"},
-    {jp:"juukyuu",en:"19",type:"basic"},
-    {jp:"nijuu",en:"20",type:"basic"},
-    {jp:"sanjuu",en:"30",type:"basic"},
-    {jp:"yonjuu",en:"40",type:"basic"},
-    {jp:"gojuu",en:"50",type:"basic"},
-    {jp:"rokujuu",en:"60",type:"basic"},
-    {jp:"nanajuu",en:"70",type:"basic"},
-    {jp:"hachijuu",en:"80",type:"basic"},
-    {jp:"kyuujuu",en:"90",type:"basic"},
-    {jp:"hyaku",en:"100",type:"basic"},
-    {jp:"sen",en:"1000",type:"basic"},
-    {jp:"man",en:"10000",type:"basic"}
-
-];
-
 function shuffle(array){
     for(let i=array.length-1;i>0;i--){
         const j=Math.floor(Math.random()*(i+1));
@@ -779,9 +801,7 @@ function shuffle(array){
 }
 
 const grid=document.getElementById("grid");
-const filter=document.getElementById("filter");
 const mode = document.getElementById("mode");
-const scriptSel = document.getElementById("script");
 
 const gojuonRows = [
     ["a","i","u","e","o"],
@@ -811,43 +831,116 @@ const yoonRows = [
     ["rya","ryu","ryo"]
 ];
 
+// =====================
+// Generic multi-select dropdown
+// =====================
+
+function setupMultiselect(btn, panel, allLabel, onChange){
+
+    const checkboxes = Array.from(panel.querySelectorAll("input[type=checkbox]"));
+
+    function getSelected(){
+        return checkboxes.filter(cb=>cb.checked).map(cb=>cb.value);
+    }
+
+    function updateLabel(){
+
+        const selected = getSelected();
+
+        if(selected.length === checkboxes.length){
+            btn.textContent = allLabel;
+        }else if(selected.length === 0){
+            btn.textContent = "None";
+        }else{
+            const names = selected.map(v=>{
+                const lbl = panel.querySelector(`input[value="${v}"]`).closest("label").textContent.trim();
+                return lbl;
+            });
+            btn.textContent = names.join(" + ");
+        }
+
+    }
+
+    btn.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        const isOpen = panel.classList.contains("open");
+        document.querySelectorAll(".multiselect-panel.open").forEach(p=>p.classList.remove("open"));
+        if(!isOpen){
+            panel.classList.add("open");
+            btn.setAttribute("aria-expanded","true");
+        }else{
+            btn.setAttribute("aria-expanded","false");
+        }
+    });
+
+    checkboxes.forEach(cb=>{
+        cb.addEventListener("change",()=>{
+
+            // enforce at least one checked
+            if(getSelected().length === 0){
+                cb.checked = true;
+                return;
+            }
+
+            updateLabel();
+            onChange();
+
+        });
+    });
+
+    document.addEventListener("click",(e)=>{
+        if(!panel.contains(e.target) && e.target !== btn){
+            panel.classList.remove("open");
+            btn.setAttribute("aria-expanded","false");
+        }
+    });
+
+    updateLabel();
+
+    return { getSelected };
+
+}
+
+const scriptBtn = document.getElementById("scriptBtn");
+const scriptPanel = document.getElementById("scriptPanel");
+const typeBtn = document.getElementById("typeBtn");
+const typePanel = document.getElementById("typePanel");
+
+const scriptMulti = setupMultiselect(scriptBtn, scriptPanel, "Hiragana + Katakana", ()=>render());
+const typeMulti = setupMultiselect(typeBtn, typePanel, "All types", ()=>render());
+
 function render(){
 
     grid.innerHTML="";
 
-    let source;
-    if(scriptSel.value === "katakana"){
-        source = katakanaChars;
-    }else if(scriptSel.value === "numbers"){
-        source = numbersChars;
-    }else{
-        source = hiraganaChars;
-    }
-
-    filter.style.display = scriptSel.value === "numbers" ? "none" : "inline-block";
-    grid.classList.toggle("numbers-mode", scriptSel.value === "numbers");
-
-    const isJpScript = (scriptSel.value === "hiragana" || scriptSel.value === "katakana");
+    const selectedScripts = scriptMulti.getSelected();
+    const selectedTypes = typeMulti.getSelected();
 
     const useTableLayout =
-        isJpScript &&
-        filter.value === "basic" &&
+        selectedScripts.length === 1 &&
+        selectedTypes.length === 1 &&
+        selectedTypes[0] === "basic" &&
         mode.value === "normal";
 
     const useYoonLayout =
-        isJpScript &&
-        filter.value === "yoon" &&
+        selectedScripts.length === 1 &&
+        selectedTypes.length === 1 &&
+        selectedTypes[0] === "yoon" &&
         mode.value === "normal";
 
     grid.classList.toggle("table-mode", useTableLayout);
     grid.classList.toggle("yoon-mode", useYoonLayout);
 
-    if(useTableLayout){
+    if(useTableLayout || useYoonLayout){
+
+        const source = selectedScripts[0] === "katakana" ? katakanaChars : hiraganaChars;
+        const rows = useTableLayout ? gojuonRows : yoonRows;
+        const wantedType = useTableLayout ? "basic" : "yoon";
 
         const lookup = {};
-        source.filter(c=>c.type==="basic").forEach(c=>{ lookup[c.en]=c; });
+        source.filter(c=>c.type===wantedType).forEach(c=>{ lookup[c.en]=c; });
 
-        gojuonRows.forEach(row=>{
+        rows.forEach(row=>{
             row.forEach(code=>{
 
                 const card=document.createElement("div");
@@ -881,54 +974,15 @@ function render(){
         return;
     }
 
-    if(useYoonLayout){
+    let cards = [];
 
-        const lookup = {};
-        source.filter(c=>c.type==="yoon").forEach(c=>{ lookup[c.en]=c; });
-
-        yoonRows.forEach(row=>{
-            row.forEach(code=>{
-
-                const card=document.createElement("div");
-
-                if(!lookup[code]){
-                    card.className="card blank";
-                    grid.appendChild(card);
-                    return;
-                }
-
-                const item=lookup[code];
-
-                card.className="card";
-
-                card.innerHTML=`
-                    <div class="inner">
-                        <div class="front">${item.jp}</div>
-                        <div class="back">${item.en}</div>
-                    </div>
-                `;
-
-                card.addEventListener("click",()=>{
-                    card.classList.toggle("flipped");
-                });
-
-                grid.appendChild(card);
-
-            });
-        });
-
-        return;
+    if(selectedScripts.includes("hiragana")){
+        cards = cards.concat(hiraganaChars.filter(c=>selectedTypes.includes(c.type)));
+    }
+    if(selectedScripts.includes("katakana")){
+        cards = cards.concat(katakanaChars.filter(c=>selectedTypes.includes(c.type)));
     }
 
-    let cards;
-
-    if(filter.value==="all"){
-        cards=[...source];
-    }else{
-        cards=source.filter(card=>card.type===filter.value);
-    }
-
-    // Shuffle only when Shuffle mode is selected
     if(mode.value==="shuffle"){
         shuffle(cards);
     }
@@ -954,7 +1008,6 @@ function render(){
 
     });
 
-
 }
 
 render();
@@ -963,9 +1016,14 @@ render();
 // Controls
 // =====================
 
-scriptSel.addEventListener("change",render);
 mode.addEventListener("change",render);
-filter.addEventListener("change",render);
+
+const shuffleBtn = document.getElementById("shuffleBtn");
+
+shuffleBtn.addEventListener("click", () => {
+    mode.value = "shuffle";
+    render();
+});
 
 // =====================
 // Dark Mode
@@ -990,16 +1048,6 @@ themeBtn.addEventListener("click",()=>{
         themeBtn.textContent="🌙 Dark";
     }
 
-});
-  
-  document.getElementById("script").addEventListener("change", function () {
-    if (this.value === "numbers") {
-        window.location.href = "/japanese-lang/numbers-flash-cards.html";
-        return;
-    }
-
-    // Nothing else happens here.
-    // Your existing Hiragana/Katakana code will continue to work.
 });
 
 </script>
