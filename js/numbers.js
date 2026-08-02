@@ -1,7 +1,3 @@
-// =====================
-// Japanese number reading generator
-// =====================
-
 function numberToRomaji(n){
 
     if(n===0) return "zero";
