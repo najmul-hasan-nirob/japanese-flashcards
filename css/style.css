@@ -79,7 +79,7 @@ body::before{
 .kanji-mark{
 
     font-family:'Shippori Mincho', serif;
-    font-size:56px;
+    font-size:40px;
     font-weight:800;
     color:var(--vermilion);
     line-height:1;
@@ -91,7 +91,7 @@ h1{
 
     font-family:'Shippori Mincho', serif;
     font-weight:700;
-    font-size:28px;
+    font-size:25px;
     letter-spacing:.02em;
     margin-bottom:4px;
 
