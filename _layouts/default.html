@@ -12,6 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+    {% if page.css %}
+<link rel="stylesheet" href="{{ page.css | relative_url }}">
+{% endif %}
+    
 </head>
 
 <body>
