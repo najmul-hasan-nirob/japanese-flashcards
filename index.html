@@ -442,15 +442,20 @@ body.dark .subtitle{
         <div class="subtitle">HIRAGANA · KATAKANA · DAKUTEN · HANDAKUTEN · YŌON</div>
     </div>
 </div>
+<div id="header"></div>
+
 <script>
-    fetch("header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading header:", error));
-  </script>
-<div class="toolbar">
+fetch("./header.html")
+  .then(response => {
+    if (!response.ok) throw new Error("Failed to load header");
+    return response.text();
+  })
+  .then(html => {
+    document.getElementById("header").innerHTML = html;
+  })
+  .catch(err => console.error(err));
+</script>
+    <div class="toolbar">
 
     <div class="field">
         <label id="scriptLabel">Script</label>
