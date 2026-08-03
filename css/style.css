@@ -70,8 +70,6 @@ body::before{
 
     max-width:980px;
     margin:0 auto 30px;
-    display:flex;
-    align-items:center;
     gap:20px;
 
 }
@@ -226,3 +224,15 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 }
 
+.logo{
+    display: flex;
+    gap: 15px;
+}
+
+
+@media (max-width:520px){
+
+    .kanji-mark{ font-size:35px; }
+    h1{ font-size:20px; }
+
+}
