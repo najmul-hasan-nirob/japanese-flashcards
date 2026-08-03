@@ -230,8 +230,11 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
         margin-top: 0px;
     }
     .field{
-        width: 100%;
+        width: 100% !important;
 
+}
+select{
+    text-align: center !important;
 }
 
 }
