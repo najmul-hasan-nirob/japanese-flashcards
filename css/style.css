@@ -225,7 +225,10 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 @media (max-width:520px){
 
     .kanji-mark{ font-size:35px; }
-    h1{ font-size:20px; }
+    h1{
+        font-size:20px; 
+        margin-top: 0px;
+    }
 
 }
 
