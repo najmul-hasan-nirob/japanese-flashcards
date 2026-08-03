@@ -85,14 +85,13 @@ body::before{
 
 }
 
-h1{
-
-    font-family:'Shippori Mincho', serif;
-    font-weight:700;
-    font-size:25px;
-    letter-spacing:.02em;
-    margin-bottom:4px;
-
+h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 700;
+    font-size: 38px;
+    letter-spacing: .02em;
+    margin-bottom: 4px;
+    margin-top: -13px;
 }
 
 .subtitle{
