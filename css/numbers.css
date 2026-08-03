@@ -237,3 +237,13 @@
     .nav-btn{ margin-left:0; }
 
 }
+
+.field{
+
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    position:relative;
+    width: 32.3%;
+
+}

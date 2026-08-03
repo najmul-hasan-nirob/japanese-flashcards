@@ -244,3 +244,12 @@ body.dark .subtitle{
 }
 
 
+.field{
+
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    position:relative;
+    width: 23.8%;
+
+}
