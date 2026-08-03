@@ -236,3 +236,19 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     h1{ font-size:20px; }
 
 }
+
+.nav-btn, button {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 9px 16px;
+    border: 1px solid var(--paper-line);
+    border-radius: 6px;
+    background: var(--paper-cell);
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color .2s ease, color .2s ease;
+}
