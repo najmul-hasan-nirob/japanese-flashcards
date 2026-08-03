@@ -201,7 +201,7 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 @media only screen and (max-width: 500px) {
     .front{ font-size:21px; }
-    button{ width:100%; justify-content:center; }
+    button{ justify-content:center; }
     .field-theme{ margin-left:0; }
     .multiselect-panel{ left:0; right:0; }
 }
