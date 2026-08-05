@@ -7,6 +7,11 @@
             <nav class="main-nav">
                 <a href="{{ '/index.html' | relative_url }}">あ Kana</a>
                 <a href="{{ '/numbers.html' | relative_url }}">数 Numbers</a>
+                <div class="abacus" id="direction" role="button" tabindex="0" aria-pressed="false" aria-label="Switch which side shows first">
+                    <span class="abacus-label left active" id="directionLeftLabel">Kana</span>
+                    <div class="rod"><div class="bead" id="bead"></div></div>
+                    <span class="abacus-label right" id="directionRightLabel">Romaji</span>
+                </div>
                 <button id="theme">🌙 Dark</button>
             </nav>
         </div>

@@ -309,6 +309,16 @@ function shuffle(array){
 const grid=document.getElementById("grid");
 const mode = document.getElementById("mode");
 
+const directionToggle = document.getElementById("direction");
+const labelLeft = directionToggle.querySelector(".left");
+const labelRight = directionToggle.querySelector(".right");
+
+// This page uses the shared header toggle for "kana" vs "romaji"
+labelLeft.textContent = "Kana";
+labelRight.textContent = "Romaji";
+
+let showKanaFirst = true;
+
 const gojuonRows = [
     ["a","i","u","e","o"],
     ["ka","ki","ku","ke","ko"],
@@ -461,10 +471,13 @@ function render(){
 
                 card.className="card";
 
+                const frontText = showKanaFirst ? item.jp : item.en;
+                const backText = showKanaFirst ? item.en : item.jp;
+
                 card.innerHTML=`
                     <div class="inner">
-                        <div class="front">${item.jp}</div>
-                        <div class="back">${item.en}</div>
+                        <div class="front">${frontText}</div>
+                        <div class="back">${backText}</div>
                     </div>
                 `;
 
@@ -499,10 +512,13 @@ function render(){
 
         card.className="card";
 
+        const frontText = showKanaFirst ? item.jp : item.en;
+        const backText = showKanaFirst ? item.en : item.jp;
+
         card.innerHTML=`
             <div class="inner">
-                <div class="front">${item.jp}</div>
-                <div class="back">${item.en}</div>
+                <div class="front">${frontText}</div>
+                <div class="back">${backText}</div>
             </div>
         `;
 
@@ -529,6 +545,28 @@ const shuffleBtn = document.getElementById("shuffleBtn");
 shuffleBtn.addEventListener("click", () => {
     mode.value = "shuffle";
     render();
+});
+
+function toggleDirection(){
+
+    showKanaFirst = !showKanaFirst;
+
+    directionToggle.classList.toggle("right", !showKanaFirst);
+    directionToggle.setAttribute("aria-pressed", String(!showKanaFirst));
+
+    labelLeft.classList.toggle("active", showKanaFirst);
+    labelRight.classList.toggle("active", !showKanaFirst);
+
+    render();
+
+}
+
+directionToggle.addEventListener("click",toggleDirection);
+directionToggle.addEventListener("keydown",(e)=>{
+    if(e.key==="Enter" || e.key===" "){
+        e.preventDefault();
+        toggleDirection();
+    }
 });
 
 // =====================

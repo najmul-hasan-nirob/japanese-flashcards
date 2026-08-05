@@ -76,6 +76,10 @@ const directionToggle=document.getElementById("direction");
 const labelLeft=directionToggle.querySelector(".left");
 const labelRight=directionToggle.querySelector(".right");
 
+// This page uses the shared header toggle for "reading" vs "number"
+labelLeft.textContent = "reading";
+labelRight.textContent = "123";
+
 let showJapaneseFirst = true;
 
 function render(){
