@@ -39,13 +39,7 @@ button:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 /* ---------- GRID ---------- */
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:10px;
-    max-width:980px;
-    margin:0 auto;
-}
+
 
 .grid.table-mode{
 

@@ -1,5 +1,5 @@
 :root{
-
+    --layout-width: 1320px;
     --paper:#F7F2E7;
     --paper-cell:#FFFDF8;
     --paper-line:#DED4BC;
@@ -51,6 +51,17 @@ body{
 
 }
 
+
+.grid{
+
+    max-width: var(--layout-width);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+
+}
+
 body::before{
 
     content:"";
@@ -68,7 +79,7 @@ body::before{
 
 .page-head{
 
-    max-width:980px;
+    max-width:var(--layout-width);
     margin:0 auto 30px;
     gap:20px;
 
@@ -107,7 +118,7 @@ h1 {
 
 .toolbar{
 
-    max-width:980px;
+    max-width:var(--layout-width);
     margin:0 auto 34px;
     background:var(--paper-cell);
     border:1px solid var(--paper-line);
