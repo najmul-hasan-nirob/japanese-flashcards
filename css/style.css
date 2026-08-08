@@ -331,6 +331,7 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
     background-repeat:no-repeat;
     background-position:right 12px center;
     transition:border-color .2s ease;
+    justify-content: center;
 
 }
 
@@ -357,7 +358,7 @@ select:focus-visible{ outline:2px solid var(--vermilion); outline-offset:2px; }
 
 }
 
-.multiselect-panel.open{ display:flex; }
+.multiselect-panel.open{ display:flex; width: 100%;}
 
 .multiselect-panel label{
 
