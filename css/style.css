@@ -419,6 +419,7 @@ select{
     align-items: center;
     gap: 6px;
     transition: border-color .2s ease, color .2s ease;
+    justify-content: center;
 }
 
 @media (max-width: 520px) {
