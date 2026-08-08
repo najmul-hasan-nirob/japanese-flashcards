@@ -420,3 +420,24 @@ select{
     transition: border-color .2s ease, color .2s ease;
 }
 
+@media (max-width: 520px) {
+
+    .main-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .main-nav > a,
+    .main-nav > button {
+        width: auto;
+        flex: 0 0 auto;
+    }
+
+    .main-nav .abacus {
+        flex: 0 0 100%;
+        width: 100%;
+        justify-content: center;
+    }
+
+}
