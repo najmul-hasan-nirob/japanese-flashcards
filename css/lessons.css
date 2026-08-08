@@ -1,39 +1,26 @@
 /* ---------- GRID ---------- */
 
-
-
 .card{
-
     position:relative;
     min-height:92px;
     perspective:1000px;
     cursor:pointer;
-
 }
 
 .inner{
-
     width:100%;
     height:100%;
     position:relative;
     transition:transform .5s cubic-bezier(.4,.1,.2,1);
     transform-style:preserve-3d;
-
 }
 
-.card.flipped .inner{
+.card.flipped .inner{ transform:rotateY(180deg); }
 
-    transform:rotateY(180deg);
-
-}
-
-@media (prefers-reduced-motion:reduce){
-    .inner{ transition:none; }
-}
+@media (prefers-reduced-motion:reduce){ .inner{ transition:none; } }
 
 .front,
 .back{
-
     position:absolute;
     inset:0;
     border-radius:var(--radius);
@@ -50,21 +37,17 @@
     border:1px solid var(--paper-line);
     box-shadow:var(--shadow);
     overflow-y:auto;
-
 }
 
 .front{
-
     background:var(--paper-cell);
     color:var(--ink);
     font-family:'Zen Kaku Gothic New', sans-serif;
     font-size:15px;
     font-weight:600;
-
 }
 
 .back{
-
     background:var(--indigo);
     color:#F7F2E7;
     font-family:'Zen Kaku Gothic New', sans-serif;
@@ -72,56 +55,65 @@
     font-weight:400;
     transform:rotateY(180deg);
     border-color:var(--indigo-deep);
-
 }
 
 .card:hover .front,
-.card:hover .back{
+.card:hover .back{ border-color:var(--vermilion); }
 
-    border-color:var(--vermilion);
-
-}
-
-.card.grammar .front{
-
-    color:var(--vermilion);
-
-}
-
-body.dark .card.grammar .front{
-
-    color:var(--vermilion);
-
-}
+.card.grammar .front{ color:var(--vermilion); }
+body.dark .card.grammar .front{ color:var(--vermilion); }
 
 .lesson-tag{
-
     display:inline-block;
     font-family:'JetBrains Mono', monospace;
     font-size:9.5px;
     text-transform:uppercase;
     letter-spacing:.06em;
     color:var(--ink-soft);
-
 }
 
-.back .lesson-tag{
-
-    color:rgba(247,242,231,.65);
-
-}
-
-@media only screen and (max-width: 500px) {
-    .front{ font-size:14px; }
-    .back{ font-size:13px; }
-}
+.back .lesson-tag{ color:rgba(247,242,231,.65); }
 
 .field{
-
     display:flex;
     flex-direction:column;
     gap:4px;
     position:relative;
     width:23.8%;
+}
 
+/* Vocabulary flip-back: Romaji → English → Bangla */
+.vocabulary-back{
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:6px;
+    padding:14px;
+}
+
+.vocabulary-back .romaji{
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.03em;
+}
+
+.vocabulary-back .english{
+    font-size:14px;
+    font-weight:500;
+}
+
+.vocabulary-back .bangla{
+    font-family:'Noto Sans Bengali','Noto Sans',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    line-height:1.5;
+}
+
+@media only screen and (max-width:500px) {
+    .front{ font-size:14px; }
+    .back{ font-size:13px; }
+    .vocabulary-back .romaji,
+    .vocabulary-back .english,
+    .vocabulary-back .bangla{ font-size:13px; }
 }
