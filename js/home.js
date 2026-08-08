@@ -577,7 +577,7 @@ const themeBtn=document.getElementById("theme");
 
 if(localStorage.getItem("theme")==="dark"){
     document.body.classList.add("dark");
-    themeBtn.textContent="☀️ Light";
+    themeBtn.textContent="☀️";
 }
 
 themeBtn.addEventListener("click",()=>{
@@ -586,10 +586,10 @@ themeBtn.addEventListener("click",()=>{
 
     if(document.body.classList.contains("dark")){
         localStorage.setItem("theme","dark");
-        themeBtn.textContent="☀️ Light";
+        themeBtn.textContent="☀️";
     }else{
         localStorage.setItem("theme","light");
-        themeBtn.textContent="🌙 Dark";
+        themeBtn.textContent="🌙";
     }
 
 });
