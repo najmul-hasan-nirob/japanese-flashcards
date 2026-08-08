@@ -27,8 +27,10 @@
     </main>
 
     {% if page.js %}
-    <script src="{{ page.js | relative_url }}"></script>
-    {% endif %}
+    {% for script in page.js %}
+        <script src="{{ script | relative_url }}"></script>
+    {% endfor %}
+{% endif %}
 
 </body>
 </html>
